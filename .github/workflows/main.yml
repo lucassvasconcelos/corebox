@@ -36,6 +36,12 @@ jobs:
     - name: dotnet Cake
       run: dotnet cake
 
+    - name: CodeCov
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./tests/.coverage/cov.cobertura.xml
+        fail_ci_if_error: true
+
     - name: dotnet Pack
       run: dotnet pack -c Release /p:Version=$GITVERSION_SEMVER
 
