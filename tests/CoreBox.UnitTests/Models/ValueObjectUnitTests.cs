@@ -12,6 +12,15 @@ namespace CoreBox.UnitTests
             var documento = Documento.Criar(numeroDocumento, dataEmissao);
             var outroDocumento = Documento.Criar(numeroDocumento, outraDataEmissao);
             documento.Should().Be(outroDocumento);
+            documento.Equals(outroDocumento).Should().BeTrue();
+
+            documento = (Documento)null;
+            (documento == outroDocumento).Should().BeFalse();
+            outroDocumento.Equals(documento).Should().BeFalse();
+
+            documento = (Documento)null;
+            outroDocumento = documento;
+            (documento == outroDocumento).Should().BeTrue();
         }
 
         [Theory, AutoMoqDataAttribute]

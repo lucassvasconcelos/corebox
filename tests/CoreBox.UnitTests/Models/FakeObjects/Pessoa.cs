@@ -12,6 +12,7 @@ namespace CoreBox.UnitTests
             Pessoa p = new Pessoa();
             p.Id = Guid.NewGuid();
             p.DataCriacao = DateTime.Now;
+            p.DataUltimaAtualizacao = DateTime.Now;
             p.Nome = nome;
             p.Documento = Documento.Criar(numeroDocumento, dataEmissao);
             return p;

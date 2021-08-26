@@ -21,18 +21,13 @@ Task("Test").IsDependentOn("Build").Does(() => {
     {
         CollectCoverage = true,
         CoverletOutputFormat = CoverletOutputFormat.cobertura,
-        CoverletOutputDirectory = Directory(@"./tests/.coverage"),
-        CoverletOutputName = $"coverage-result",
-        ThresholdType = ThresholdType.Line,
+        CoverletOutputDirectory = Directory("./tests/.coverage"),
+        CoverletOutputName = "cov",
+        ThresholdType = ThresholdType.Branch,
         Threshold = 100
     };
 
-    var testSettings = new DotNetCoreTestSettings
-    {
-        Configuration = configuration,
-        NoBuild = true,
-    };
-
+    var testSettings = new DotNetCoreTestSettings { Configuration = configuration, NoBuild = true };
     DotNetCoreTest(solution, testSettings, coverletSettings);
 });
 

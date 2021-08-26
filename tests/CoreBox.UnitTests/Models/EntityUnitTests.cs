@@ -20,6 +20,13 @@ namespace CoreBox.UnitTests
             var pessoa = Pessoa.Criar(nomePessoa, numeroDocumento, dataEmissao);
             var outraPessoa = pessoa;
             (pessoa == outraPessoa).Should().BeTrue();
+
+            pessoa = (Pessoa)null;
+            (pessoa == outraPessoa).Should().BeFalse();
+
+            pessoa = (Pessoa)null;
+            outraPessoa = pessoa;
+            (pessoa == outraPessoa).Should().BeTrue();
         }
 
         [Theory, AutoMoqDataAttribute]

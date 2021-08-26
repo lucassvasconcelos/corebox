@@ -6,6 +6,6 @@ namespace CoreBox
     {
         public TKey Id { get; set; }
         public DateTime DataCriacao { get; set; }
-        public DateTime? DataUltimaAtualizacao { get; set; }
+        public DateTime DataUltimaAtualizacao { get; set; }
     }
 }
