@@ -46,4 +46,4 @@ jobs:
       run: dotnet pack -c Release /p:Version=$GITVERSION_SEMVER
 
     - name: Package Publish
-      run: dotnet nuget push -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }} ./src/CoreBox/bin/Release/*.nupkg --skip-duplicate
+      run: dotnet nuget push -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }} ./src/CoreBox/bin/Release/CoreBox.$GITVERSION_SEMVER.nupkg --skip-duplicate
