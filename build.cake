@@ -17,7 +17,7 @@ Task("Build").IsDependentOn("Restore").Does(() => {
     if (gitVersion != "")
         DotNetCoreBuild(solution, new DotNetCoreBuildSettings { 
             Configuration = configuration, 
-            MSBuildSettings = (new DotNetCoreBuildSettings()).WithProperty("Version", gitVersion)
+            MSBuildSettings = (new DotNetCoreMSBuildSettings()).WithProperty("Version", gitVersion)
         });
     else
         DotNetCoreBuild(solution, new DotNetCoreBuildSettings { Configuration = configuration });
