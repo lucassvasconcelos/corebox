@@ -1,4 +1,4 @@
-name: Build & Test - Stable
+name: Stable Version
 
 on:
   push:

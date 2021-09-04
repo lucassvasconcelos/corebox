@@ -1,4 +1,4 @@
-name: Build, Test & Publish Package
+name: Release - Publish Package
 
 on:
   push:
@@ -14,9 +14,6 @@ jobs:
       with:
         fetch-depth: 0
         ref: release
-
-    - name: Fetch unshallow
-      run: git fetch --prune --tags --unshallow
 
     - name: dotnet Setup
       uses: actions/setup-dotnet@v1
@@ -39,7 +36,7 @@ jobs:
     - name: dotnet Cake
       run: dotnet cake
       env:
-        GIT_VERSION: $GITVERSION_SEMVER
+        GIT_VERSION: ${{ steps.gitversion.outputs.semVer }}
 
     - name: CodeCov
       uses: codecov/codecov-action@v2
