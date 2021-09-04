@@ -1,9 +1,9 @@
-name: Stable Version
+name: Release - Pull Request
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - release
 
 jobs:
   test-and-build:
@@ -11,6 +11,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+        ref: release
 
     - name: dotnet Setup
       uses: actions/setup-dotnet@v1
