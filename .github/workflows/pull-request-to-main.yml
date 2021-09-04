@@ -1,7 +1,7 @@
 name: Stable Version
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
