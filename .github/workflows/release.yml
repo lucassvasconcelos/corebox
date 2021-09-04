@@ -1,0 +1,51 @@
+name: Build, Test & Publish Package
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+        ref: release
+
+    - name: Fetch unshallow
+      run: git fetch --prune --tags --unshallow
+
+    - name: dotnet Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: GitVersion Setup
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+
+    - name: GitVersion Execute
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      with:
+        useConfigFile: true
+
+    - name: install cake
+      run: dotnet tool restore
+
+    - name: dotnet Cake
+      run: dotnet cake
+      env:
+        GIT_VERSION: $GITVERSION_SEMVER
+
+    - name: CodeCov
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./tests/.coverage/cov.cobertura.xml
+        fail_ci_if_error: true
+
+    - name: Package Publish
+      run: dotnet nuget push -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }} ./src/CoreBox/bin/Release/CoreBox.$GITVERSION_SEMVER.nupkg --skip-duplicate
