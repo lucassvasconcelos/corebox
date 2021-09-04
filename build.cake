@@ -2,6 +2,7 @@
 var target = Argument("target", "Test");
 var configuration = Argument("configuration", "Release");
 var solution = "./CoreBox.sln";
+var gitVersion = EnvironmentVariable<string>("GIT_VERSION", "");
 
 Task("Clean").Does(() => {
     CleanDirectories($"./src/**/bin/{configuration}");
@@ -13,7 +14,13 @@ Task("Restore").IsDependentOn("Clean").Does(() => {
 });
 
 Task("Build").IsDependentOn("Restore").Does(() => {
-    DotNetCoreBuild(solution, new DotNetCoreBuildSettings { Configuration = configuration });
+    if (gitVersion != "")
+        DotNetCoreBuild(solution, new DotNetCoreBuildSettings { 
+            Configuration = configuration, 
+            MSBuildSettings = new DotNetCoreMSBuildSettings().WithProperty("Version", gitVersion)
+        });
+    else
+        DotNetCoreBuild(solution, new DotNetCoreBuildSettings { Configuration = configuration });
 });
 
 Task("Test").IsDependentOn("Build").Does(() => {

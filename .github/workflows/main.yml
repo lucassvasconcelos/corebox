@@ -1,4 +1,4 @@
-name: Build, Test & Publish Package
+name: Build & Test
 
 on:
   push:
@@ -12,23 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Fetch unshallow
-      run: git fetch --prune --tags --unshallow
-
     - name: dotnet Setup
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.x'
-
-    - name: GitVersion Setup
-      uses: gittools/actions/gitversion/setup@v0.9.7
-      with:
-        versionSpec: '5.x'
-
-    - name: GitVersion Execute
-      uses: gittools/actions/gitversion/execute@v0.9.7
-      with:
-        useConfigFile: true
 
     - name: install cake
       run: dotnet tool restore
@@ -41,9 +28,3 @@ jobs:
       with:
         files: ./tests/.coverage/cov.cobertura.xml
         fail_ci_if_error: true
-
-    - name: dotnet Pack
-      run: dotnet pack -c Release /p:Version=$GITVERSION_SEMVER
-
-    - name: Package Publish
-      run: dotnet nuget push -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }} ./src/CoreBox/bin/Release/CoreBox.$GITVERSION_SEMVER.nupkg --skip-duplicate
