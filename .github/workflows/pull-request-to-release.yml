@@ -1,0 +1,33 @@
+name: Build & Test
+
+on:
+  pull_request:
+    branches:
+      - release
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+        ref: release
+
+    - name: dotnet Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: install cake
+      run: dotnet tool restore
+
+    - name: dotnet Cake
+      run: dotnet cake
+
+    - name: CodeCov
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./tests/.coverage/cov.cobertura.xml
+        fail_ci_if_error: true
