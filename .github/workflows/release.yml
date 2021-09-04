@@ -36,7 +36,7 @@ jobs:
     - name: dotnet Cake
       run: dotnet cake
       env:
-        GIT_VERSION: $GITVERSION_SEMVER
+        GIT_VERSION: ${{ steps.gitversion.outputs.semVer }}
 
     - name: CodeCov
       uses: codecov/codecov-action@v2
