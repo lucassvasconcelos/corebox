@@ -1,18 +1,23 @@
 using System;
 
-namespace CoreBox
+namespace CoreBox.Domain
 {
-    public abstract class Entity<T, TKey> where T : Entity<T, TKey>
+    public abstract class Entity<T> where T : Entity<T>
     {
-        public TKey Id { get; protected set; }
+        public Guid Id { get; protected set; }
         public DateTime DataCriacao { get; protected set; }
         public DateTime DataUltimaAtualizacao { get; protected set; }
 
-        protected Entity() { }
+        protected Entity()
+        {
+            Id = Guid.NewGuid();
+            DataCriacao = DateTime.Now;
+            DataUltimaAtualizacao = DateTime.Now;
+        }
 
         public override bool Equals(object obj)
         {
-            var compareTo = obj as Entity<T, TKey>;
+            var compareTo = obj as Entity<T>;
 
             if (ReferenceEquals(this, compareTo))
                 return true;
@@ -23,7 +28,7 @@ namespace CoreBox
             return Id.Equals(compareTo.Id);
         }
 
-        public static bool operator ==(Entity<T, TKey> a, Entity<T, TKey> b)
+        public static bool operator ==(Entity<T> a, Entity<T> b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
                 return true;
@@ -34,7 +39,7 @@ namespace CoreBox
             return a.Equals(b);
         }
 
-        public static bool operator !=(Entity<T, TKey> a, Entity<T, TKey> b)
+        public static bool operator !=(Entity<T> a, Entity<T> b)
             => !(a == b);
 
         public override int GetHashCode()
