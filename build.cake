@@ -30,7 +30,7 @@ Task("Test").IsDependentOn("Build").Does(() => {
         CoverletOutputFormat = CoverletOutputFormat.cobertura,
         CoverletOutputDirectory = Directory("./tests/.coverage"),
         CoverletOutputName = "cov",
-        ThresholdType = ThresholdType.Branch,
+        ThresholdType = ThresholdType.Line | ThresholdType.Branch,
         Threshold = 100
     };
 
