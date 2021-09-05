@@ -1,8 +1,9 @@
 ﻿using System;
+using CoreBox.Domain;
 
-namespace CoreBox.UnitTests
+namespace CoreBox.Tests
 {
-    public class Pessoa : Entity<Pessoa, Guid>
+    public class Pessoa : Entity<Pessoa>
     {
         public string Nome { get; private set; }
         public Documento Documento { get; private set; }
@@ -10,9 +11,6 @@ namespace CoreBox.UnitTests
         public static Pessoa Criar(string nome, string numeroDocumento, DateTime dataEmissao)
         {
             Pessoa p = new Pessoa();
-            p.Id = Guid.NewGuid();
-            p.DataCriacao = DateTime.Now;
-            p.DataUltimaAtualizacao = DateTime.Now;
             p.Nome = nome;
             p.Documento = Documento.Criar(numeroDocumento, dataEmissao);
             return p;

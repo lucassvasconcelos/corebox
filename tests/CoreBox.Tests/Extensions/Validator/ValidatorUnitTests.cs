@@ -4,7 +4,7 @@ using FluentAssertions;
 using FluentValidation;
 using Xunit;
 
-namespace CoreBox.UnitTests.Extensions.Validator
+namespace CoreBox.Tests.Extensions.Validator
 {
     public class ValidatorUnitTests
     {
