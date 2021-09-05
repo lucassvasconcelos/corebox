@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace CoreBox.UnitTests.Extensions.Validator
+namespace CoreBox.Tests.Extensions.Validator
 {
     public class FooValidator : AbstractValidator<Foo>
     {

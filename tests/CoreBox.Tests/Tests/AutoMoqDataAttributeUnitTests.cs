@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace CoreBox.UnitTests
+namespace CoreBox.Tests
 {
     public class AutoMoqDataAttributeUnitTests
     {

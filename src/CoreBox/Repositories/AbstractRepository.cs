@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoreBox.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreBox.Repositories
 {
-    public class AbstractRepository<TEntity, TKey> : IRepository<TEntity, TKey>
-        where TEntity : Entity<TEntity, TKey>
+    public class AbstractRepository<TEntity> : IRepository<TEntity>
+        where TEntity : Entity<TEntity>
     {
         protected readonly DbSet<TEntity> _entity;
         protected readonly DbContext _dbContext;
@@ -40,13 +42,10 @@ namespace CoreBox.Repositories
             return Task.CompletedTask;
         }
 
-        public virtual async Task<TEntity> GetByIdAsync(TKey id)
-            => await _entity.AsNoTracking().FirstOrDefaultAsync(e => e.Id.Equals(id));
-
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-            => await _entity.ToListAsync();
+            => await _entity.AsNoTracking().ToListAsync();
 
-        public void Dispose()
-            => _dbContext.Dispose();
+        public virtual async Task<TEntity> GetByIdAsync(Guid id)
+            => await _entity.AsNoTracking().FirstOrDefaultAsync(e => e.Id.Equals(id));
     }
 }

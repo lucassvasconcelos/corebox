@@ -1,6 +1,7 @@
 ﻿using System;
+using CoreBox.Domain;
 
-namespace CoreBox.UnitTests
+namespace CoreBox.Tests
 {
     public class Documento : ValueObject<Documento>
     {
