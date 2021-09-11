@@ -32,9 +32,6 @@ jobs:
         files: ./tests/.coverage/cov.cobertura.xml
         fail_ci_if_error: true
 
-    - name: dir
-      run: ls -l
-
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
