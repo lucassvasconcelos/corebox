@@ -13,13 +13,13 @@ namespace CoreBox.Middlewares
         public GlobalExceptionHandler(RequestDelegate next)
             => _next = next;
 
-        public async Task ExecuteAsync(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             var exception = httpContext.Features.Get<IExceptionHandlerFeature>();
 
             if (exception != null)
             {
-                string errorMessage = exception.Error?.Message;
+                string errorMessage = exception.Error != null ? exception.Error.Message : string.Empty;
                 httpContext.Response.ContentLength = errorMessage.Length;
                 httpContext.Response.StatusCode = (int)exception.Error.ToHttpStatus();
                 httpContext.Response.ContentType = "application/json";
