@@ -56,12 +56,31 @@ namespace CoreBox.Tests.Extensions
         }
 
         [Theory, AutoMoqDataAttribute]
-        public void Deve_Retornar_HttpStatus_Gone2(AggregateException exception)
+        public void Deve_Retornar_HttpStatus_BadRequest_Por_AggregateException(ValidationException validationException)
         {
-            var teste = new AggregateException("teste inner");
+            var aggregateException = new AggregateException(validationException);
+            var httpStatus = aggregateException.ToHttpStatus();
+            httpStatus.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public void Deve_Retornar_HttpStatus_InternalServerError()
+        {
+            int one = 1;
+            int zero = 0;
+            AggregateException exception = null;
+
+            try
+            {
+                var bug = one / zero;
+            }
+            catch (Exception ex)
+            {
+                exception = new AggregateException(ex);
+            }
 
             var httpStatus = exception.ToHttpStatus();
-            httpStatus.Should().Be(HttpStatusCode.Gone);
+            httpStatus.Should().Be(HttpStatusCode.InternalServerError);
         }
     }
 }

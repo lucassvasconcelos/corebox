@@ -1,4 +1,4 @@
-using System.Text.Json;
+using System.Text;
 using System.Threading.Tasks;
 using CoreBox.Extensions;
 using Microsoft.AspNetCore.Diagnostics;
@@ -13,17 +13,17 @@ namespace CoreBox.Middlewares
         public GlobalExceptionHandler(RequestDelegate next)
             => _next = next;
 
-        public async Task Invoke(HttpContext httpContext)
+        public async Task ExecuteAsync(HttpContext httpContext)
         {
             var exception = httpContext.Features.Get<IExceptionHandlerFeature>();
-            
+
             if (exception != null)
             {
                 string errorMessage = exception.Error?.Message;
                 httpContext.Response.ContentLength = errorMessage.Length;
                 httpContext.Response.StatusCode = (int)exception.Error.ToHttpStatus();
                 httpContext.Response.ContentType = "application/json";
-                await httpContext.Response.WriteAsync(errorMessage);
+                await httpContext.Response.WriteAsync(errorMessage, Encoding.UTF8);
             }
         }
     }
