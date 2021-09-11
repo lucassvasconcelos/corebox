@@ -16,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.9" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -27,6 +28,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CoreBox\CoreBox.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(SolutionDir)/tests/CoreBox.Tests/appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SolutionDir)/tests/CoreBox.Tests/appsettings.Development.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(SolutionDir)/tests/CoreBox.Tests/appsettings.Production.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
