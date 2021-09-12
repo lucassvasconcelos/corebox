@@ -1,7 +1,6 @@
 using System.IO;
 using CoreBox.Extensions;
 using FluentAssertions;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
@@ -12,7 +11,7 @@ namespace CoreBox.Tests.Extensions
         [Fact]
         public void Deve_Obter_O_AppSettings_Sem_Ambiente()
         {
-            var env = new HostingEnvironment();
+            var env = new HostEnvironment();
             env.ContentRootPath = Path.GetFullPath("../../../");
             env.EnvironmentName = "";
 
@@ -23,7 +22,7 @@ namespace CoreBox.Tests.Extensions
         [Fact]
         public void Deve_Obter_O_AppSettings_Development()
         {
-            var env = new HostingEnvironment();
+            var env = new HostEnvironment();
             env.ContentRootPath = Path.GetFullPath("../../../");
             env.EnvironmentName = "Development";
 
@@ -34,7 +33,7 @@ namespace CoreBox.Tests.Extensions
         [Fact]
         public void Deve_Obter_O_AppSettings_Production()
         {
-            var env = new HostingEnvironment();
+            var env = new HostEnvironment();
             env.ContentRootPath = Path.GetFullPath("../../../");
             env.EnvironmentName = "Production";
 

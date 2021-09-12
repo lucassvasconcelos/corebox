@@ -1,11 +1,11 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace CoreBox.Extensions
 {
     public static class ConfigurationExtensions
     {
-        public static IConfiguration GetEnvironmentConfiguration(this IConfiguration configuration, IHostingEnvironment env)
+        public static IConfiguration GetEnvironmentConfiguration(this IConfiguration configuration, IHostEnvironment env)
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
