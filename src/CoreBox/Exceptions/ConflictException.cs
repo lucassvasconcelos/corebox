@@ -7,7 +7,7 @@ namespace CoreBox.Exceptions
         public ConflictException(string errorMessage)
             : base(errorMessage)
         {
-            
+
         }
     }
 }

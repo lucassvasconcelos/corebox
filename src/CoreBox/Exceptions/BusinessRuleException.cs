@@ -7,7 +7,7 @@ namespace CoreBox.Exceptions
         public BusinessRuleException(string errorMessage)
             : base(errorMessage)
         {
-            
+
         }
     }
 }

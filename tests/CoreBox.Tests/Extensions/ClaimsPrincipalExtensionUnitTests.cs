@@ -11,7 +11,7 @@ namespace CoreBox.Tests.Extensions
         [Fact]
         public void Deve_Encontrar_A_Role_Dentro_Das_Claims()
         {
-            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>() 
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>()
             {
                 new Claim(ClaimTypes.Role, "Role1"),
                 new Claim(ClaimTypes.Role, "Role2")
@@ -24,7 +24,7 @@ namespace CoreBox.Tests.Extensions
         [Fact]
         public void Nao_Deve_Encontrar_A_Role_Dentro_Das_Claims()
         {
-            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>() 
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>()
             {
                 new Claim(ClaimTypes.Role, "Role1"),
                 new Claim(ClaimTypes.Role, "Role2")

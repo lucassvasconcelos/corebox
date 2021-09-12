@@ -7,7 +7,7 @@ namespace CoreBox.Exceptions
         public ForbiddenAccessException(string errorMessage)
             : base(errorMessage)
         {
-            
+
         }
     }
 }

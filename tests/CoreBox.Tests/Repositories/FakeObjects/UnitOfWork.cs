@@ -29,7 +29,8 @@ namespace CoreBox.Tests.Repositories
             => await transaction.RollbackAsync();
 
         public IRepository<TEntity> GetRepository<TEntity>() where TEntity : Entity<TEntity>
-            => typeof(TEntity) switch {
+            => typeof(TEntity) switch
+            {
                 Type tipo when tipo == typeof(Produto) => (IRepository<TEntity>)ProdutoRepository,
                 _ => null
             };

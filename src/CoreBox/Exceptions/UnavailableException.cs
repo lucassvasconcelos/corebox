@@ -7,7 +7,7 @@ namespace CoreBox.Exceptions
         public UnavailableException(string errorMessage)
             : base(errorMessage)
         {
-            
+
         }
     }
 }

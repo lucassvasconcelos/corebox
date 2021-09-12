@@ -29,7 +29,7 @@ namespace CoreBox.Repositories
             _entity.Update(entity);
             return Task.CompletedTask;
         }
-        
+
         public virtual Task DeleteAsync(TEntity entity)
         {
             _entity.Remove(entity);

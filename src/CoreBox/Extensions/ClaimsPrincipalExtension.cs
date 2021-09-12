@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Security.Claims;
 
 namespace CoreBox.Extensions
@@ -8,7 +7,7 @@ namespace CoreBox.Extensions
         public static bool HasRole(this ClaimsPrincipal claimsPrincipal, string[] roles)
         {
             foreach (var role in roles)
-                if (claimsPrincipal.IsInRole(role)) 
+                if (claimsPrincipal.IsInRole(role))
                     return true;
 
             return false;

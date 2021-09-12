@@ -89,7 +89,7 @@ namespace CoreBox.Tests.Repositories
         [Theory, AutoMoqDataAttribute]
         public async Task Deve_Deletar_Um_Produto(Produto produto1, Produto produto2, Produto produto3)
         {
-            await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(new List<Produto>{ produto1, produto2, produto3 });
+            await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(new List<Produto> { produto1, produto2, produto3 });
             await _unitOfWork.CommitAsync();
 
             var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
