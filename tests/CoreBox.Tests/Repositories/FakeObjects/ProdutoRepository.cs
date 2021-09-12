@@ -1,6 +1,4 @@
-using System;
 using CoreBox.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoreBox.Tests.Repositories
 {

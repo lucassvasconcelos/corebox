@@ -6,7 +6,7 @@ namespace CoreBox
 {
     public class AutoMoqDataAttribute : AutoDataAttribute
     {
-        public AutoMoqDataAttribute() 
-            :base(() => new Fixture().Customize(new CompositeCustomization(new AutoMoqCustomization(), new SupportMutableValueTypesCustomization()))) {}
+        public AutoMoqDataAttribute()
+            : base(() => new Fixture().Customize(new CompositeCustomization(new AutoMoqCustomization(), new SupportMutableValueTypesCustomization()))) { }
     }
 }

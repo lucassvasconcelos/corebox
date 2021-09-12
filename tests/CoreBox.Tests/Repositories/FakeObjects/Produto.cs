@@ -1,4 +1,3 @@
-using System;
 using CoreBox.Domain;
 
 namespace CoreBox.Tests.Repositories
@@ -8,7 +7,7 @@ namespace CoreBox.Tests.Repositories
         public string Nome { get; private set; }
         public decimal Preco { get; private set; }
 
-        private Produto() {}
+        private Produto() { }
 
         public static Produto Criar(string nome, decimal preco)
             => new Produto

@@ -7,7 +7,7 @@ namespace CoreBox.Exceptions
         public NotFoundException(string errorMessage)
             : base(errorMessage)
         {
-            
+
         }
     }
 }
