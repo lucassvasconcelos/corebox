@@ -1,8 +1,9 @@
+using CoreBox.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreBox.Tests.Repositories
 {
-    public class Context : DbContext
+    public class Context : DbContext, IDbContext<Context>
     {
         public DbSet<Produto> Produtos { get; set; }
 
