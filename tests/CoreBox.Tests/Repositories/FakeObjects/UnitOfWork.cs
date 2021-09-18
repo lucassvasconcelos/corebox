@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CoreBox.Domain;
 using CoreBox.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CoreBox.Tests.Repositories
@@ -27,6 +28,9 @@ namespace CoreBox.Tests.Repositories
 
         public async Task RollBackTransactionAsync(IDbContextTransaction transaction)
             => await transaction.RollbackAsync();
+
+        public IDbContext<TDbContext> GetApplicationDbContext<TDbContext>() where TDbContext : DbContext
+            => (IDbContext<TDbContext>) _context;
 
         public IRepository<TEntity> GetRepository<TEntity>() where TEntity : Entity<TEntity>
             => typeof(TEntity) switch

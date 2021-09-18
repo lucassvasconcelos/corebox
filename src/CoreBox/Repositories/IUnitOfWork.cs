@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using CoreBox.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CoreBox.Repositories
@@ -11,5 +12,6 @@ namespace CoreBox.Repositories
         Task CommitTransactionAsync(IDbContextTransaction transaction);
         Task RollBackTransactionAsync(IDbContextTransaction transaction);
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : Entity<TEntity>;
+        IDbContext<TDbContext> GetApplicationDbContext<TDbContext>() where TDbContext : DbContext;
     }
 }
