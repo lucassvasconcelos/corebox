@@ -46,6 +46,6 @@ namespace CoreBox.Repositories
             => await _entity.AsNoTracking().ToListAsync();
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id)
-            => await _entity.FirstOrDefaultAsync(e => e.Id.Equals(id));
+            => await _entity.FindAsync(id);
     }
 }
