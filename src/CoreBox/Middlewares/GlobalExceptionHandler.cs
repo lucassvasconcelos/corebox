@@ -1,6 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using CoreBox.Extensions;
+using CoreBox.Types;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
@@ -22,7 +23,7 @@ namespace CoreBox.Middlewares
                 string errorMessage = exception.Error != null ? exception.Error.Message : string.Empty;
                 httpContext.Response.ContentLength = errorMessage.Length;
                 httpContext.Response.StatusCode = (int)exception.Error.ToHttpStatus();
-                httpContext.Response.ContentType = "application/json";
+                httpContext.Response.ContentType = MimeType.json;
                 await httpContext.Response.WriteAsync(errorMessage, Encoding.UTF8);
             }
         }
