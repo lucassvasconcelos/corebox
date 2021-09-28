@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using CoreBox.Middlewares;
+using CoreBox.Types;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
@@ -33,7 +34,7 @@ namespace CoreBox.Tests.Middlewares
             body.Should().Be(expectedOutput);
             defaultContext.Response.ContentLength.Should().Be(expectedOutput.Length);
             defaultContext.Response.StatusCode.Should().Be(400);
-            defaultContext.Response.ContentType.Should().Be("application/json");
+            defaultContext.Response.ContentType.Should().Be(MimeType.json);
         }
 
         [Fact]
@@ -54,7 +55,7 @@ namespace CoreBox.Tests.Middlewares
             body.Should().Be("");
             defaultContext.Response.ContentLength.Should().Be(0);
             defaultContext.Response.StatusCode.Should().Be(500);
-            defaultContext.Response.ContentType.Should().Be("application/json");
+            defaultContext.Response.ContentType.Should().Be(MimeType.json);
         }
     }
 }
