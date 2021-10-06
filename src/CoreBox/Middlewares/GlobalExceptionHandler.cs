@@ -14,17 +14,24 @@ namespace CoreBox.Middlewares
         public GlobalExceptionHandler(RequestDelegate next)
             => _next = next;
 
-        public async Task InvokeAsync(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext context)
         {
-            var exception = httpContext.Features.Get<IExceptionHandlerFeature>();
-
-            if (exception != null)
+            try
             {
-                string errorMessage = exception.Error != null ? exception.Error.Message : string.Empty;
-                httpContext.Response.ContentLength = errorMessage.Length;
-                httpContext.Response.StatusCode = (int)exception.Error.ToHttpStatus();
-                httpContext.Response.ContentType = MimeType.json;
-                await httpContext.Response.WriteAsync(errorMessage, Encoding.UTF8);
+                await _next(context);
+            }
+            finally
+            {
+                var exception = context.Features.Get<IExceptionHandlerFeature>();
+
+                if (exception != null)
+                {
+                    string errorMessage = exception.Error != null ? exception.Error.Message : string.Empty;
+                    context.Response.ContentLength = errorMessage.Length;
+                    context.Response.StatusCode = (int)exception.Error.ToHttpStatus();
+                    context.Response.ContentType = MimeType.json;
+                    await context.Response.WriteAsync(errorMessage, Encoding.UTF8);
+                }
             }
         }
     }
