@@ -5,7 +5,9 @@ namespace CoreBox.Extensions
 {
     public static class IApplicationBuilderExtensions
     {
-        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder builder)
-            => builder.UseMiddleware<GlobalExceptionHandler>();
+        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
+            => app.UseExceptionHandler(builder
+                => builder.Run(async context
+                    => await GlobalExceptionHandler.InvokeAsync(context)));
     }
 }
