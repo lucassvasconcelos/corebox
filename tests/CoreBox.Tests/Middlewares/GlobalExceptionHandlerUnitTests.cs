@@ -24,9 +24,7 @@ namespace CoreBox.Tests.Middlewares
             defaultContext.Response.Body = new MemoryStream();
             defaultContext.Request.Path = "/";
 
-            var middlewareInstance = new GlobalExceptionHandler(async (httpContext) => await Task.CompletedTask);
-
-            await middlewareInstance.InvokeAsync(defaultContext);
+            await GlobalExceptionHandler.InvokeAsync(defaultContext);
 
             defaultContext.Response.Body.Seek(0, SeekOrigin.Begin);
             var body = new StreamReader(defaultContext.Response.Body).ReadToEnd();
@@ -45,9 +43,7 @@ namespace CoreBox.Tests.Middlewares
             defaultContext.Response.Body = new MemoryStream();
             defaultContext.Request.Path = "/";
 
-            var middlewareInstance = new GlobalExceptionHandler(async (httpContext) => await Task.CompletedTask);
-
-            await middlewareInstance.InvokeAsync(defaultContext);
+            await GlobalExceptionHandler.InvokeAsync(defaultContext);
 
             defaultContext.Response.Body.Seek(0, SeekOrigin.Begin);
             var body = new StreamReader(defaultContext.Response.Body).ReadToEnd();
