@@ -13,6 +13,6 @@ namespace CoreBox.Repositories
         Task RollBackTransactionAsync(IDbContextTransaction transaction);
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : Entity<TEntity>;
         DbConnection GetDbConnection();
-        Task<bool> CanConnect();
+        Task<bool> CanConnectAsync();
     }
 }
