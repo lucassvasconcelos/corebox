@@ -33,6 +33,9 @@ namespace CoreBox.Tests.Repositories
         public DbConnection GetDbConnection()
             => _context.Database.GetDbConnection();
 
+        public async Task<bool> CanConnect()
+            => await _context.Database.CanConnectAsync();
+
         public IRepository<TEntity> GetRepository<TEntity>() where TEntity : Entity<TEntity>
             => typeof(TEntity) switch
             {
