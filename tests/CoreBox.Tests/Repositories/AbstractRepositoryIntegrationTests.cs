@@ -121,5 +121,59 @@ namespace CoreBox.Tests.Repositories
             var results2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
             results2.Count().Should().Be(0);
         }
+
+        [Theory, AutoMoqDataAttribute]
+        public async Task Deve_Obter_Um_Produto_Por_Specification(IEnumerable<Produto> produtos)
+        {
+            await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(produtos);
+            await _unitOfWork.CommitAsync();
+
+            var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
+            results.Count().Should().Be(3);
+
+            var produto1 = results[0];
+            var produto2 = results[1];
+            var produto3 = results[2];
+
+            Produto.AtualizarPreco(produto1, 10);
+            Produto.AtualizarPreco(produto2, 20);
+            Produto.AtualizarPreco(produto3, 30);
+
+            await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto1);
+            await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto2);
+            await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto3);
+            await _unitOfWork.CommitAsync();
+
+            var results2 = await _unitOfWork.GetRepository<Produto>().GetAsync(new ProdutoComPrecoAbaixoSpecification(15));
+            results2.Should().Be(produto1);
+        }
+
+        [Theory, AutoMoqDataAttribute]
+        public async Task Deve_Obter_Varios_Produtos_Por_Specification(IEnumerable<Produto> produtos)
+        {
+            await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(produtos);
+            await _unitOfWork.CommitAsync();
+
+            var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
+            results.Count().Should().Be(3);
+
+            var produto1 = results[0];
+            var produto2 = results[1];
+            var produto3 = results[2];
+
+            Produto.AtualizarPreco(produto1, 10);
+            Produto.AtualizarPreco(produto2, 20);
+            Produto.AtualizarPreco(produto3, 30);
+
+            await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto1);
+            await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto2);
+            await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto3);
+            await _unitOfWork.CommitAsync();
+
+            var results2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(new ProdutoComPrecoAbaixoSpecification(25));
+            results2.Count().Should().Be(2);
+            results2.First(f => f.Id == produto1.Id).Should().Be(produto1);
+            results2.First(f => f.Id == produto2.Id).Should().Be(produto2);
+        }
     }
 }
