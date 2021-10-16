@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoreBox.Domain;
+using CoreBox.Specification;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreBox.Repositories
@@ -42,10 +44,18 @@ namespace CoreBox.Repositories
             return Task.CompletedTask;
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-            => await _entity.AsNoTracking().ToListAsync();
-
         public virtual async Task<TEntity> GetByIdAsync(Guid id)
             => await _entity.FindAsync(id);
+
+        public virtual async Task<TEntity> GetAsync(Specification<TEntity> specification)
+            => await _entity.AsNoTracking().FirstOrDefaultAsync(specification.ToExpression());
+
+        public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Specification<TEntity> specification = null)
+        {
+            if (specification is null)
+                return await _entity.AsNoTracking().ToListAsync();
+
+            return await _entity.Where(specification.ToExpression()).AsNoTracking().ToListAsync();
+        }
     }
 }

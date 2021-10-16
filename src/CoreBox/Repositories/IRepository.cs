@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreBox.Domain;
+using CoreBox.Specification;
 
 namespace CoreBox.Repositories
 {
@@ -12,7 +13,8 @@ namespace CoreBox.Repositories
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
         Task DeleteRangeAsync(IEnumerable<TEntity> entities);
-        Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> GetByIdAsync(Guid id);
+        Task<TEntity> GetAsync(Specification<TEntity> specification);
+        Task<IReadOnlyList<TEntity>> GetAllAsync(Specification<TEntity> specification = null);
     }
 }
