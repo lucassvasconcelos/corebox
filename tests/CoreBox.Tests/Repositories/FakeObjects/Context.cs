@@ -1,4 +1,5 @@
 using CoreBox.Repositories;
+using CoreBox.Repositories.Cache;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreBox.Tests.Repositories
@@ -6,6 +7,7 @@ namespace CoreBox.Tests.Repositories
     public class Context : DbContext, IDbContext<Context>
     {
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<CacheModel> Caches { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options) { }
 
@@ -29,6 +31,13 @@ namespace CoreBox.Tests.Repositories
 
             builder.Entity<Produto>()
                 .Property(prop => prop.Preco)
+                .IsRequired();
+
+            builder.Entity<CacheModel>()
+                .HasKey(key => key.Key);
+
+            builder.Entity<CacheModel>()
+                .Property(prop => prop.Value)
                 .IsRequired();
         }
     }
