@@ -56,24 +56,24 @@ namespace CoreBox.Tests.Repositories
         }
 
         [Fact]
-        public void Deve_Reportar_Erro_Por_Falta_De_Informacoes_Ao_Salvar()
+        public async Task Deve_Reportar_Erro_Por_Falta_De_Informacoes_Ao_Salvar()
         {
             Func<Task> act = async () => await _cacheRepository.SaveAsync<Produto>("", null);
-            act.Should().ThrowExactly<ArgumentException>("Não foi possível adicionar informação do cache: Chave ou Objeto não informado");
+            await act.Should().ThrowExactlyAsync<ArgumentException>("Não foi possível adicionar informação do cache: Chave ou Objeto não informado");
         }
 
         [Fact]
-        public void Deve_Reportar_Erro_Por_Falta_De_Informacoes_Ao_Remover()
+        public async Task Deve_Reportar_Erro_Por_Falta_De_Informacoes_Ao_Remover()
         {
             Func<Task> act = async () => await _cacheRepository.RemoveAsync("");
-            act.Should().ThrowExactly<ArgumentException>("Não foi possível remover informação do cache: Chave não informada");
+            await act.Should().ThrowExactlyAsync<ArgumentException>("Não foi possível remover informação do cache: Chave não informada");
         }
 
         [Fact]
-        public void Deve_Reportar_Erro_Por_Falta_De_Informacoes_Ao_Obter()
+        public async Task Deve_Reportar_Erro_Por_Falta_De_Informacoes_Ao_Obter()
         {
             Func<Task> act = async () => await _cacheRepository.GetAsync<Produto>("");
-            act.Should().ThrowExactly<ArgumentException>("Não foi possível obter informação do cache: Chave não informada");
+            await act.Should().ThrowExactlyAsync<ArgumentException>("Não foi possível obter informação do cache: Chave não informada");
         }
     }
 }
