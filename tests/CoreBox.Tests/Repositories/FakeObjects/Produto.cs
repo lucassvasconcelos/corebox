@@ -1,3 +1,4 @@
+using System;
 using CoreBox.Domain;
 
 namespace CoreBox.Tests.Repositories
@@ -12,6 +13,16 @@ namespace CoreBox.Tests.Repositories
         public static Produto Criar(string nome, decimal preco)
             => new Produto
             {
+                Nome = nome,
+                Preco = preco
+            };
+
+        public static Produto Carregar(Guid id, DateTime dataCriacao, DateTime dataUltimaAtualizacao, string nome, decimal preco)
+            => new Produto
+            {
+                Id = id,
+                DataCriacao = dataCriacao,
+                DataUltimaAtualizacao = dataUltimaAtualizacao,
                 Nome = nome,
                 Preco = preco
             };
