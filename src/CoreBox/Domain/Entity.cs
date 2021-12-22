@@ -11,8 +11,8 @@ namespace CoreBox.Domain
         protected Entity()
         {
             Id = Guid.NewGuid();
-            DataCriacao = DateTime.Now;
-            DataUltimaAtualizacao = DateTime.Now;
+            DataCriacao = DateTime.UtcNow;
+            DataUltimaAtualizacao = DateTime.UtcNow;
         }
 
         public override bool Equals(object obj)
