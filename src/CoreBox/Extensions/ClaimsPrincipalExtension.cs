@@ -12,5 +12,8 @@ namespace CoreBox.Extensions
 
             return false;
         }
+
+        public static Claim GetUserId(this ClaimsPrincipal claimsPrincipal)
+            => claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier);
     }
 }
