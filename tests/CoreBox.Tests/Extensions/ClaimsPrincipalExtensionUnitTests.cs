@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using CoreBox.Extensions;
@@ -32,6 +33,21 @@ namespace CoreBox.Tests.Extensions
 
             var hasRole = claimsPrincipal.HasRole(new string[] { "Role3" });
             hasRole.Should().Be(false);
+        }
+
+        [Fact]
+        public void Deve_Obter_O_Id_Do_Usuario_Dentro_Das_Claims()
+        {
+            var id = Guid.NewGuid().ToString();
+
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, id),
+                new Claim(ClaimTypes.Role, "Role2")
+            }));
+
+            var sub = claimsPrincipal.GetUserId();
+            sub.Value.Should().Be(id);
         }
     }
 }
