@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using CoreBox.Extensions;
 using FluentAssertions;
-using Microsoft.AspNetCore.Builder.Internal;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -16,7 +16,7 @@ namespace CoreBox.Tests.Extensions
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddSingleton<DiagnosticSource>(new DiagnosticListener("corebox"));
+            services.AddSingleton<DiagnosticListener>(new DiagnosticListener("corebox"));
 
             var appBuilder = new ApplicationBuilder(services.BuildServiceProvider());
             appBuilder.UseGlobalExceptionHandler();
