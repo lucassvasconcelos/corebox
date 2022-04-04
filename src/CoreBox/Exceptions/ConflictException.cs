@@ -1,13 +1,10 @@
-using System;
+namespace CoreBox.Exceptions;
 
-namespace CoreBox.Exceptions
+public class ConflictException : Exception
 {
-    public class ConflictException : Exception
+    public ConflictException(string errorMessage)
+        : base(errorMessage)
     {
-        public ConflictException(string errorMessage)
-            : base(errorMessage)
-        {
 
-        }
     }
 }

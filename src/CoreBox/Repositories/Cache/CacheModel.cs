@@ -1,14 +1,13 @@
-namespace CoreBox.Repositories.Cache
-{
-    public class CacheModel
-    {
-        public string Key { get; set; }
-        public string Value { get; set; }
+namespace CoreBox.Repositories.Cache;
 
-        public CacheModel(string key, string value)
-        {
-            Key = key;
-            Value = value;
-        }
+public class CacheModel
+{
+    public string Key { get; set; }
+    public string Value { get; set; }
+
+    public CacheModel(string key, string value)
+    {
+        Key = key;
+        Value = value;
     }
 }

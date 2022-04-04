@@ -1,13 +1,10 @@
-using System;
+namespace CoreBox.Exceptions;
 
-namespace CoreBox.Exceptions
+public class NotFoundException : Exception
 {
-    public class NotFoundException : Exception
+    public NotFoundException(string errorMessage)
+        : base(errorMessage)
     {
-        public NotFoundException(string errorMessage)
-            : base(errorMessage)
-        {
 
-        }
     }
 }

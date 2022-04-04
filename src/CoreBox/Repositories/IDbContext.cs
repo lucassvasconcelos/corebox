@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreBox.Repositories
+namespace CoreBox.Repositories;
+
+public interface IDbContext<T> where T : DbContext
 {
-    public interface IDbContext<T> where T : DbContext
-    {
-        
-    }
+    
 }
