@@ -1,7 +1,6 @@
-namespace CoreBox.Application
+namespace CoreBox.Application;
+
+public interface IQuery
 {
-    public interface IQuery
-    {
-        string Value { get; }
-    }
+    string Value { get; }
 }
