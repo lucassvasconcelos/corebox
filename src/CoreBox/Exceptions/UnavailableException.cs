@@ -1,13 +1,10 @@
-using System;
+namespace CoreBox.Exceptions;
 
-namespace CoreBox.Exceptions
+public class UnavailableException : Exception
 {
-    public class UnavailableException : Exception
+    public UnavailableException(string errorMessage)
+        : base(errorMessage)
     {
-        public UnavailableException(string errorMessage)
-            : base(errorMessage)
-        {
 
-        }
     }
 }

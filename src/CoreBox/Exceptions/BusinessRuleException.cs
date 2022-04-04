@@ -1,13 +1,10 @@
-using System;
+namespace CoreBox.Exceptions;
 
-namespace CoreBox.Exceptions
+public class BusinessRuleException : Exception
 {
-    public class BusinessRuleException : Exception
+    public BusinessRuleException(string errorMessage)
+        : base(errorMessage)
     {
-        public BusinessRuleException(string errorMessage)
-            : base(errorMessage)
-        {
 
-        }
     }
 }

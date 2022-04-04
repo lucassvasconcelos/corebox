@@ -1,13 +1,10 @@
-using System;
+namespace CoreBox.Exceptions;
 
-namespace CoreBox.Exceptions
+public class ForbiddenAccessException : Exception
 {
-    public class ForbiddenAccessException : Exception
+    public ForbiddenAccessException(string errorMessage)
+        : base(errorMessage)
     {
-        public ForbiddenAccessException(string errorMessage)
-            : base(errorMessage)
-        {
 
-        }
     }
 }
