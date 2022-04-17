@@ -101,7 +101,12 @@ namespace CoreBox.Tests
             var dateWithTimeZone = TimeZoneInfo.ConvertTime(DateTime.UtcNow, tz);
             
             pessoa.DataCriacao.Should().BeBefore(dateWithTimeZone);
-            pessoa.DataUltimaAtualizacao.Should().BeBefore(dateWithTimeZone);
+            pessoa.IdUsuarioCriacao.Should().NotBeEmpty();
+            pessoa.DataUltimaAtualizacao.Should().BeNull();
+            pessoa.DataExclusao.Should().BeNull();
+            pessoa.IdUsuarioAtualizacao.Should().BeNull();
+            pessoa.IdUsuarioExclusao.Should().BeNull();
+            pessoa.FoiExcluido.Should().BeFalse();
         }
     }
 }
