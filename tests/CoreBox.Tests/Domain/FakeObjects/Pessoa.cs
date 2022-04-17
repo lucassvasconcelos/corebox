@@ -13,6 +13,7 @@ namespace CoreBox.Tests
             Pessoa p = new Pessoa();
             p.Nome = nome;
             p.Documento = Documento.Criar(numeroDocumento, dataEmissao);
+            p.IdUsuarioCriacao = Guid.NewGuid();
             return p;
         }
     }

@@ -36,7 +36,7 @@ namespace CoreBox.Tests.Repositories
             results.Count().Should().Be(1);
             results.FirstOrDefault().Id.Should().Be(produto.Id);
             results.FirstOrDefault().DataCriacao.Should().Be(produto.DataCriacao);
-            results.FirstOrDefault().DataUltimaAtualizacao.Should().Be(produto.DataUltimaAtualizacao);
+            results.FirstOrDefault().DataUltimaAtualizacao.Should().BeNull();
             results.FirstOrDefault().Nome.Should().Be(produto.Nome);
             results.FirstOrDefault().Preco.Should().Be(produto.Preco);
         }
@@ -54,7 +54,7 @@ namespace CoreBox.Tests.Repositories
             {
                 results[i].Id.Should().Be(produtos[i].Id);
                 results[i].DataCriacao.Should().Be(produtos[i].DataCriacao);
-                results[i].DataUltimaAtualizacao.Should().Be(produtos[i].DataUltimaAtualizacao);
+                results[i].DataUltimaAtualizacao.Should().BeNull();
                 results[i].Nome.Should().Be(produtos[i].Nome);
                 results[i].Preco.Should().Be(produtos[i].Preco);
             }
@@ -69,7 +69,7 @@ namespace CoreBox.Tests.Repositories
             var result = await _unitOfWork.GetRepository<Produto>().GetByIdAsync(produto.Id);
             result.Id.Should().Be(produto.Id);
             result.DataCriacao.Should().Be(produto.DataCriacao);
-            result.DataUltimaAtualizacao.Should().Be(produto.DataUltimaAtualizacao);
+            result.DataUltimaAtualizacao.Should().BeNull();
             result.Nome.Should().Be(produto.Nome);
             result.Preco.Should().Be(produto.Preco);
 
@@ -81,7 +81,7 @@ namespace CoreBox.Tests.Repositories
             var result2 = await _unitOfWork.GetRepository<Produto>().GetByIdAsync(produto.Id);
             result2.Id.Should().Be(produto.Id);
             result2.DataCriacao.Should().Be(produto.DataCriacao);
-            result2.DataUltimaAtualizacao.Should().Be(produto.DataUltimaAtualizacao);
+            result2.DataUltimaAtualizacao.Should().BeNull();
             result2.Nome.Should().Be(produto.Nome);
             result2.Preco.Should().Be(produto.Preco + 50);
         }
