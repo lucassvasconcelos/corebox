@@ -23,7 +23,7 @@ public static class StringExtensions
         {
             cpf = cpf.OnlyStringNumbers();
 
-            if (cpf.Length != 11)
+            if (cpf.Length != 11 || cpf.All(a => a == cpf.FirstOrDefault()))
                 return false;
 
             int soma = 0;
@@ -60,7 +60,7 @@ public static class StringExtensions
         {
             cnpj = cnpj.OnlyStringNumbers();
 
-            if (cnpj.Length != 14)
+            if (cnpj.Length != 14 || cnpj.All(a => a == cnpj.FirstOrDefault()))
                 return false;
 
             int soma = 0;
