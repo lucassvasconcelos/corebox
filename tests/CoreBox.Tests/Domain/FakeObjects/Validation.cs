@@ -7,6 +7,8 @@ namespace CoreBox.Tests
 {
     public class Validation : Entity<Validation>
     {
+        public string CampoObrigatorio { get; set; }
+
         public static Validation Criar(
             Guid? id = null,
             DateTime? dataCriacao = null,
@@ -16,7 +18,8 @@ namespace CoreBox.Tests
             bool? foiExcluido = null,
             DateTime? dataExclusao = null,
             Guid? idUsuarioExclusao = null,
-            bool doSoftDeleteValidations = true
+            bool doSoftDeleteValidations = true,
+            string campoObrigatorio = null
         )
         {
             Validation validation = new();
@@ -29,8 +32,9 @@ namespace CoreBox.Tests
             if (foiExcluido.HasValue) validation.FoiExcluido = foiExcluido.Value;
             validation.DataExclusao = dataExclusao;
             validation.IdUsuarioExclusao = idUsuarioExclusao;
+            validation.CampoObrigatorio = campoObrigatorio;
             
-            validation.ValidateAndThrow(new CreateValidator<Validation>(doSoftDeleteValidations));
+            validation.ValidateAndThrow(new CreateValidator<Validation>(new CustomValidator(), doSoftDeleteValidations));
             return validation;
         }
 
@@ -43,7 +47,8 @@ namespace CoreBox.Tests
             bool? foiExcluido = null,
             DateTime? dataExclusao = null,
             Guid? idUsuarioExclusao = null,
-            bool doSoftDeleteValidations = true
+            bool doSoftDeleteValidations = true,
+            string campoObrigatorio = null
         )
         {
             if (id.HasValue) Id = id.Value;
@@ -54,8 +59,9 @@ namespace CoreBox.Tests
             if (foiExcluido.HasValue) FoiExcluido = foiExcluido.Value;
             DataExclusao = dataExclusao;
             IdUsuarioExclusao = idUsuarioExclusao;
+            CampoObrigatorio = campoObrigatorio;
 
-            this.ValidateAndThrow(new UpdateValidator<Validation>(doSoftDeleteValidations));
+            this.ValidateAndThrow(new UpdateValidator<Validation>(new CustomValidator(), doSoftDeleteValidations));
         }
 
         public void Deletar(
@@ -67,7 +73,8 @@ namespace CoreBox.Tests
             bool? foiExcluido = null,
             DateTime? dataExclusao = null,
             Guid? idUsuarioExclusao = null,
-            bool doSoftDeleteValidations = true
+            bool doSoftDeleteValidations = true,
+            string campoObrigatorio = null
         )
         {
             if (id.HasValue) Id = id.Value;
@@ -78,8 +85,9 @@ namespace CoreBox.Tests
             if (foiExcluido.HasValue) FoiExcluido = foiExcluido.Value;
             DataExclusao = dataExclusao;
             IdUsuarioExclusao = idUsuarioExclusao;
+            CampoObrigatorio = campoObrigatorio;
 
-            this.ValidateAndThrow(new DeleteValidator<Validation>(doSoftDeleteValidations));
+            this.ValidateAndThrow(new DeleteValidator<Validation>(new CustomValidator(), doSoftDeleteValidations));
         }
     }
 }
