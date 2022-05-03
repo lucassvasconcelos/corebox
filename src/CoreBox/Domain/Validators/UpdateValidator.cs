@@ -4,7 +4,7 @@ namespace CoreBox.Domain.Validators;
 
 public class UpdateValidator<T> : AbstractValidator<T> where T : Entity<T>
 {
-    public UpdateValidator(bool doSoftDeleteValidations = true)
+    public UpdateValidator(AbstractValidator<T> anotherValidator = null, bool doSoftDeleteValidations = true)
     {
         RuleFor(r => r.Id).NotEmpty().WithMessage($"Id é obrigatório!");
         RuleFor(r => r.DataCriacao).LessThan(DateTime.UtcNow).WithMessage($"Data de criação é inválida!");
@@ -19,5 +19,8 @@ public class UpdateValidator<T> : AbstractValidator<T> where T : Entity<T>
             RuleFor(r => r.IdUsuarioExclusao).Empty().WithMessage($"Id do usuário da exclusão deve ser nulo na atualização!");
             RuleFor(r => r.FoiExcluido).Equal(false).WithMessage($"Flag se foi excluído sempre precisar ser falsa ao atualizar!");
         }
+
+        if (anotherValidator is not null)
+            Include(anotherValidator);
     }
 }
