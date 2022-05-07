@@ -17,7 +17,6 @@ public class UpdateValidator<T> : AbstractValidator<T> where T : Entity<T>
         {
             RuleFor(r => r.DataExclusao).Empty().WithMessage($"Data de exclusão deve ser nula na atualização!");
             RuleFor(r => r.IdUsuarioExclusao).Empty().WithMessage($"Id do usuário da exclusão deve ser nulo na atualização!");
-            RuleFor(r => r.FoiExcluido).Equal(false).WithMessage($"Flag se foi excluído sempre precisar ser falsa ao atualizar!");
         }
 
         if (anotherValidator is not null)

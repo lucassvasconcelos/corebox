@@ -15,7 +15,6 @@ public class DeleteValidator<T> : AbstractValidator<T> where T : Entity<T>
             RuleFor(r => r.DataExclusao).NotEmpty().WithMessage($"Data de exclusão é obrigatória!");
             RuleFor(r => r.DataExclusao).InclusiveBetween(DateTime.UtcNow.AddMilliseconds(-2000), DateTime.UtcNow.AddMilliseconds(2000)).WithMessage($"Data de exclusão é inválida!");
             RuleFor(r => r.IdUsuarioExclusao).NotEmpty().WithMessage($"Id do usuário de exclusão é obrigatório!");
-            RuleFor(r => r.FoiExcluido).Equal(true).WithMessage($"Flag de exclusão deve ser verdadeira!");
         }
 
         if (anotherValidator is not null)
