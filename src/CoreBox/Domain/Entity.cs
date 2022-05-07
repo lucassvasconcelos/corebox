@@ -7,7 +7,6 @@ public abstract class Entity<T> where T : Entity<T>
     public Guid IdUsuarioCriacao { get; protected set; }
     public DateTime? DataUltimaAtualizacao { get; protected set; }
     public Guid? IdUsuarioAtualizacao { get; protected set; }
-    public bool FoiExcluido { get; protected set; }
     public DateTime? DataExclusao { get; protected set; }
     public Guid? IdUsuarioExclusao { get; protected set; }
 
@@ -15,7 +14,6 @@ public abstract class Entity<T> where T : Entity<T>
     {
         Id = Guid.NewGuid();
         DataCriacao = DateTime.UtcNow;
-        FoiExcluido = false;
     }
 
     public override bool Equals(object obj)
