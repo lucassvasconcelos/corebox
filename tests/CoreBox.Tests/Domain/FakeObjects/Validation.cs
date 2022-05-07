@@ -15,7 +15,6 @@ namespace CoreBox.Tests
             Guid? idUsuarioCriacao = null,
             DateTime? dataUltimaAtualizacao = null,
             Guid? idUsuarioAtualizacao = null,
-            bool? foiExcluido = null,
             DateTime? dataExclusao = null,
             Guid? idUsuarioExclusao = null,
             bool doSoftDeleteValidations = true,
@@ -29,7 +28,6 @@ namespace CoreBox.Tests
             if (idUsuarioCriacao.HasValue) validation.IdUsuarioCriacao = idUsuarioCriacao.Value;
             validation.DataUltimaAtualizacao = dataUltimaAtualizacao;
             validation.IdUsuarioAtualizacao = idUsuarioAtualizacao;
-            if (foiExcluido.HasValue) validation.FoiExcluido = foiExcluido.Value;
             validation.DataExclusao = dataExclusao;
             validation.IdUsuarioExclusao = idUsuarioExclusao;
             validation.CampoObrigatorio = campoObrigatorio;
@@ -44,7 +42,6 @@ namespace CoreBox.Tests
             Guid? idUsuarioCriacao = null,
             DateTime? dataUltimaAtualizacao = null,
             Guid? idUsuarioAtualizacao = null,
-            bool? foiExcluido = null,
             DateTime? dataExclusao = null,
             Guid? idUsuarioExclusao = null,
             bool doSoftDeleteValidations = true,
@@ -56,7 +53,6 @@ namespace CoreBox.Tests
             if (idUsuarioCriacao.HasValue) IdUsuarioCriacao = idUsuarioCriacao.Value;
             DataUltimaAtualizacao = dataUltimaAtualizacao;
             IdUsuarioAtualizacao = idUsuarioAtualizacao;
-            if (foiExcluido.HasValue) FoiExcluido = foiExcluido.Value;
             DataExclusao = dataExclusao;
             IdUsuarioExclusao = idUsuarioExclusao;
             CampoObrigatorio = campoObrigatorio;
@@ -70,7 +66,6 @@ namespace CoreBox.Tests
             Guid? idUsuarioCriacao = null,
             DateTime? dataUltimaAtualizacao = null,
             Guid? idUsuarioAtualizacao = null,
-            bool? foiExcluido = null,
             DateTime? dataExclusao = null,
             Guid? idUsuarioExclusao = null,
             bool doSoftDeleteValidations = true,
@@ -82,7 +77,6 @@ namespace CoreBox.Tests
             if (idUsuarioCriacao.HasValue) IdUsuarioCriacao = idUsuarioCriacao.Value;
             DataUltimaAtualizacao = dataUltimaAtualizacao;
             IdUsuarioAtualizacao = idUsuarioAtualizacao;
-            if (foiExcluido.HasValue) FoiExcluido = foiExcluido.Value;
             DataExclusao = dataExclusao;
             IdUsuarioExclusao = idUsuarioExclusao;
             CampoObrigatorio = campoObrigatorio;

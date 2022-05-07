@@ -18,7 +18,6 @@ namespace CoreBox.Tests.Repositories
             builder.Entity<Produto>().Property(prop => prop.IdUsuarioCriacao);
             builder.Entity<Produto>().Property(prop => prop.DataUltimaAtualizacao);
             builder.Entity<Produto>().Property(prop => prop.IdUsuarioAtualizacao);
-            builder.Entity<Produto>().Property(prop => prop.FoiExcluido);
             builder.Entity<Produto>().Property(prop => prop.DataExclusao);
             builder.Entity<Produto>().Property(prop => prop.IdUsuarioExclusao);
         }

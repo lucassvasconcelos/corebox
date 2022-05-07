@@ -106,7 +106,6 @@ namespace CoreBox.Tests
             pessoa.DataExclusao.Should().BeNull();
             pessoa.IdUsuarioAtualizacao.Should().BeNull();
             pessoa.IdUsuarioExclusao.Should().BeNull();
-            pessoa.FoiExcluido.Should().BeFalse();
         }
     }
 }
