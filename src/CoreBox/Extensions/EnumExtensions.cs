@@ -20,6 +20,17 @@ public static class EnumExtensions
         return description;
     }
 
+    public static T GetValueFromDescription<T>(this string description) where T : Enum
+    {
+        foreach(var field in typeof(T).GetFields())
+        {
+            if (((Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute) && attribute.Description == description) || field.Name == description)
+                return (T)field.GetValue(null);
+        }
+
+        throw new ArgumentException($"O item {description} não foi encontrado");
+    }
+
     public static List<string> GetDescriptions(this Type type)
     {
         if (!type.IsEnum)
