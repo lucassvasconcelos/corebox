@@ -44,13 +44,13 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
         => await _entity.FindAsync(id);
 
     public virtual async Task<TEntity> GetAsync(Specification<TEntity> specification)
-        => await _entity.AsNoTracking().FirstOrDefaultAsync(specification.ToExpression());
+        => await _entity.AsQueryable().FirstOrDefaultAsync(specification.ToExpression());
 
     public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Specification<TEntity> specification = null)
     {
         if (specification is null)
-            return await _entity.AsNoTracking().ToListAsync();
+            return await _entity.AsQueryable().ToListAsync();
 
-        return await _entity.Where(specification.ToExpression()).AsNoTracking().ToListAsync();
+        return await _entity.Where(specification.ToExpression()).AsQueryable().ToListAsync();
     }
 }
