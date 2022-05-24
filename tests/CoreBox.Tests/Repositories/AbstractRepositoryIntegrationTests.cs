@@ -95,6 +95,9 @@ namespace CoreBox.Tests.Repositories
             var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
             results.Count().Should().Be(3);
 
+            foreach (var item in results)
+                _context.Entry(item).State = EntityState.Detached;
+
             await _unitOfWork.GetRepository<Produto>().DeleteAsync(produto1);
             await _unitOfWork.CommitAsync();
 
@@ -114,6 +117,9 @@ namespace CoreBox.Tests.Repositories
 
             var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
             results.Count().Should().Be(3);
+
+            foreach (var item in results)
+                _context.Entry(item).State = EntityState.Detached;
 
             await _unitOfWork.GetRepository<Produto>().DeleteRangeAsync(produtos);
             await _unitOfWork.CommitAsync();
