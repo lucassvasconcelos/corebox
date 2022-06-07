@@ -9,5 +9,6 @@ public class PessoaValidator : AbstractValidator<Pessoa>
     {
         RuleFor(r => r.Documento).IsValidCpf().When(w => w.TipoPessoa == "Pessoa Física").WithMessage("O CPF é inválido!");
         RuleFor(r => r.Documento).IsValidCnpj().When(w => w.TipoPessoa == "Pessoa Jurídica").WithMessage("O CNPJ é inválido!");
+        RuleFor(r => r.Sexo).IsValidEnum().WithMessage("Sexo inválido!");
     }
 }
