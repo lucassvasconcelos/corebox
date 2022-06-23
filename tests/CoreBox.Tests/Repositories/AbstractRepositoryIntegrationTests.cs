@@ -181,5 +181,27 @@ namespace CoreBox.Tests.Repositories
             results2.First(f => f.Id == produto1.Id).Should().Be(produto1);
             results2.First(f => f.Id == produto2.Id).Should().Be(produto2);
         }
+
+        [Theory, AutoMoqDataAttribute]
+        public async Task Deve_Validar_Que_Existe_Um_Produto_Por_Id(Produto produto)
+        {
+            await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);
+            await _unitOfWork.CommitAsync();
+
+            var result = await _unitOfWork.GetRepository<Produto>().AnyAsync(new ProdutoPorIdSpecification(produto.Id));
+
+            result.Should().BeTrue();
+        }
+
+        [Theory, AutoMoqDataAttribute]
+        public async Task Deve_Validar_Que_Nao_Existe_Um_Produto_Por_Id(Produto produto)
+        {
+            await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);
+            await _unitOfWork.CommitAsync();
+
+            var result = await _unitOfWork.GetRepository<Produto>().AnyAsync(new ProdutoPorIdSpecification(Guid.NewGuid()));
+
+            result.Should().BeFalse();
+        }
     }
 }
