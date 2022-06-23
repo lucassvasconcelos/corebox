@@ -53,4 +53,7 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
 
         return await _entity.Where(specification.ToExpression()).AsQueryable().ToListAsync();
     }
+
+    public virtual async Task<bool> AnyAsync(Specification<TEntity> specification)
+        => await _entity.AsQueryable().AnyAsync(specification.ToExpression());
 }
