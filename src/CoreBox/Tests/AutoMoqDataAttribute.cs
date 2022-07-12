@@ -2,7 +2,7 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
 
-namespace CoreBox;
+namespace CoreBox.Test;
 
 public class AutoMoqDataAttribute : AutoDataAttribute
 {

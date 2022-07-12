@@ -1,4 +1,5 @@
 using System;
+using CoreBox.Test;
 using FluentAssertions;
 using Xunit;
 

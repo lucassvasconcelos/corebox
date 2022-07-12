@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using CoreBox.Exceptions;
 using CoreBox.Extensions;
+using CoreBox.Test;
 using FluentAssertions;
 using FluentValidation;
 using Xunit;
