@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreBox.Repositories;
+using CoreBox.Test;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

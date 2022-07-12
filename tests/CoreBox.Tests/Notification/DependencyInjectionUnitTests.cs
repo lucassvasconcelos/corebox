@@ -3,6 +3,7 @@ using System.Linq;
 using CoreBox.Extensions;
 using CoreBox.Notification;
 using CoreBox.Notification.Abstractions;
+using CoreBox.Test;
 using CoreBox.Tests.Extensions;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
