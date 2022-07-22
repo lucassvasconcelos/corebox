@@ -1,4 +1,7 @@
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
+using CoreBox.Exceptions;
 
 namespace CoreBox.Extensions;
 
@@ -93,4 +96,61 @@ public static class StringExtensions
 
     public static string OnlyStringNumbers(this string text)
         => new String(text.Trim().Where(Char.IsDigit).ToArray());
+    
+    public static string Encrypt(this string text, string customInfo, string saltKey)
+    {
+        byte[] bytes = Encoding.Unicode.GetBytes(text);
+        
+        using (Aes encryptor = Aes.Create())
+        {
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey));
+            encryptor.Key = pdb.GetBytes(32);
+            encryptor.IV = pdb.GetBytes(16);
+            
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(bytes, 0, bytes.Length);
+                    cs.Close();
+                }
+                
+                text = Convert.ToBase64String(ms.ToArray());
+            }
+        }
+
+        return text;
+    }
+
+    public static string Decrypt(this string text, string customInfo, string saltKey)
+    {
+        try
+        {
+            byte[] bytes = Convert.FromBase64String(text);
+        
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey));
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(bytes, 0, bytes.Length);
+                        cs.Close();
+                    }
+                    
+                    text = Encoding.Unicode.GetString(ms.ToArray());
+                }
+            }
+            
+            return text;
+        }
+        catch (CryptographicException)
+        {
+            throw new CryptographicException("Não foi possível decodificar a senha com os dados informados");
+        }
+    }
 }
