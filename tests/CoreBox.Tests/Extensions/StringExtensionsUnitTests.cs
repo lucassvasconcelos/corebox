@@ -1,3 +1,6 @@
+using System;
+using System.Security.Cryptography;
+using CoreBox.Exceptions;
 using CoreBox.Extensions;
 using FluentAssertions;
 using Xunit;
@@ -85,5 +88,39 @@ namespace CoreBox.Tests.Extensions
         [InlineData(null, false)]
         public void ValidarCnpj(string cnpj, bool resultado)
             => cnpj.IsCnpj().Should().Be(resultado);
+
+        [Fact]
+        public void DeveValidarSeAsSenhasEncryptadasSeraoIguais()
+        {
+            var result1 = "P@ssw0rd".Encrypt("email1@gmail.com", "s4Itk3y");
+            var result2 = "P@ssw0rd".Encrypt("email1@gmail.com", "s4Itk3y");
+            (result1 == result2).Should().BeTrue();
+        }
+
+        [Fact]
+        public void DeveValidarSeAsSenhasEncryptadasSeraoDiferentes()
+        {
+            var result1 = "P@ssw0rd".Encrypt("email1@gmail.com", "s4Itk3y");
+            var result2 = "P@ssw0rd".Encrypt("email2@gmail.com", "s4Itk3y");
+            (result1 == result2).Should().BeFalse();
+        }
+
+        [Fact]
+        public void DeveDecriptarUmaSenha()
+        {
+            var password = "P@ssw0rd";
+            var passwordHash = password.Encrypt("email1@gmail.com", "s4Itk3y");
+            var result = passwordHash.Decrypt("email1@gmail.com", "s4Itk3y");
+            (result == password).Should().BeTrue();
+        }
+
+        [Fact]
+        public void DeveNaoDecriptarUmaSenha()
+        {
+            var password = "P@ssw0rd";
+            var passwordHash = password.Encrypt("email1@gmail.com", "s4Itk3y");
+            Action act = () => passwordHash.Decrypt("email2@gmail.com", "s4Itk3y");
+            act.Should().ThrowExactly<CryptographicException>().WithMessage("Não foi possível decodificar a senha com os dados informados");
+        }
     }
 }
