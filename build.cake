@@ -1,5 +1,4 @@
-#addin nuget:?package=Cake.Coverlet&version=2.5.4
-#tool dotnet:?package=dotnet-reportgenerator-globaltool&version=5.0.2
+#tool dotnet:?package=dotnet-reportgenerator-globaltool&version=5.1.11
 var target = Argument("target", "Test");
 var configuration = Argument("configuration", "Release");
 var solution = "./CoreBox.sln";
@@ -11,36 +10,35 @@ Task("Clean").Does(() => {
 });
 
 Task("Restore").IsDependentOn("Clean").Does(() => {
-    DotNetCoreRestore(solution, new DotNetCoreRestoreSettings { NoCache = true });
+    DotNetRestore(solution, new DotNetRestoreSettings { NoCache = true });
 });
 
 Task("Build").IsDependentOn("Restore").Does(() => {
     if (gitVersion != "")
-        DotNetCoreBuild(solution, new DotNetCoreBuildSettings { 
+        DotNetBuild(solution, new DotNetBuildSettings { 
             Configuration = configuration, 
-            MSBuildSettings = (new DotNetCoreMSBuildSettings()).WithProperty("Version", gitVersion)
+            MSBuildSettings = (new DotNetMSBuildSettings()).WithProperty("Version", gitVersion)
         });
     else
-        DotNetCoreBuild(solution, new DotNetCoreBuildSettings { Configuration = configuration });
+        DotNetBuild(solution, new DotNetBuildSettings { Configuration = configuration });
 });
 
 Task("Test").IsDependentOn("Build").Does(() => {
-    var coverletSettings = new CoverletSettings
-    {
-        CollectCoverage = true,
-        CoverletOutputFormat = CoverletOutputFormat.cobertura,
-        CoverletOutputDirectory = Directory("./tests/.coverage"),
-        CoverletOutputName = "cov",
-        ThresholdType = ThresholdType.Line | ThresholdType.Branch,
-        Threshold = 100
-    };
-
-    var testSettings = new DotNetCoreTestSettings { Configuration = configuration, NoBuild = true };
-    DotNetCoreTest(solution, testSettings, coverletSettings);
+    DotNetTest(
+        null,
+        new DotNetTestSettings {
+            ArgumentCustomization = args => 
+                args.Append("/p:CollectCoverage=true,CoverletOutputFormat=opencover,Threshold=100,ThresholdType=\"line%2cbranch%2cmethod\"")
+                    .Append($"--configuration Release")
+                    .Append($"--no-build")
+                    .Append($"--no-restore")
+                    .Append($"--logger \"html;logfilename=testResults.html\"")
+        }
+    );
 }).Finally(() => {
     ReportGenerator(
-        report: "./tests/.coverage/cov.cobertura.xml",
-        $"./coveragereport",
+        report: "./tests/CoreBox.Tests/coverage.opencover.xml",
+        $"./tests/CoreBox.Tests/TestResults/Report",
         new ReportGeneratorSettings { ArgumentCustomization = args => args.Append("-reporttypes.Html")}
     );
 });
