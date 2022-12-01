@@ -31,5 +31,19 @@ namespace CoreBox.Tests.Extensions
             dt.Month.Should().Be(1);
             dt.Year.Should().Be(1999);
         }
+
+        [Theory]
+        [InlineData("2021-02-28 00:00:00", "2021-02-01 00:00:00")]
+        [InlineData("2022-12-01 00:00:00", "2022-12-01 00:00:00")]
+        [InlineData("2022-11-17 00:00:00", "2022-11-01 00:00:00")]
+        public void Deve_Obter_O_Primeiro_Dia_Do_Mes(DateTime dt, DateTime result)
+            => dt.GetFirstDayOfMonth().Should().Be(result);
+
+        [Theory]
+        [InlineData("2016-02-10 00:00:00", "2016-02-29 00:00:00")]
+        [InlineData("2021-02-10 00:00:00", "2021-02-28 00:00:00")]
+        [InlineData("2024-02-10 00:00:00", "2024-02-29 00:00:00")]
+        public void Deve_Obter_O_Ultimo_Dia_Do_Mes(DateTime dt, DateTime result)
+            => dt.GetLastDayOfMonth().Should().Be(result);
     }
 }
