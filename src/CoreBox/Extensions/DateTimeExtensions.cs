@@ -2,6 +2,12 @@ namespace CoreBox.Extensions;
 
 public static class DateTimeExtensions
 {
+    public static DateTime GetFirstDayOfMonth(this DateTime date)
+        => new DateTime(date.Year, date.Month, 1);
+
+    public static DateTime GetLastDayOfMonth(this DateTime date)
+        => GetFirstDayOfMonth(date).AddMonths(1).AddDays(-1);
+
     public static DateTime SetMonth(this DateTime dt, int month)
     {
         if (dt.Month > month)
