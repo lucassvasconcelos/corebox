@@ -21,7 +21,7 @@ Semantic version uses the commit messages to determine the type of changes in th
 
 Commit example for new features:
 
-    feature: <description>
+    feat: <description>
 
 Commit example for a bugfix:
 
