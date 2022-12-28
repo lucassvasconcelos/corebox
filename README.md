@@ -13,30 +13,6 @@ CoreBox can be installed using the Nuget package manager or the `dotnet` CLI.
     
     dotnet add package CoreBox
 
-# 💻 Versioning - How does it work?
-
-This repository use semantic version to define the package versions.
-
-Semantic version uses the commit messages to determine the type of changes in the codebase.
-
-Commit example for new features:
-
-    feat: <description>
-
-Commit example for a bugfix:
-
-    fix: <description>
-
-To understand what the other types of commit descriptions take a look at the file `GitVersion.yml`.
-
-# 📈 Roadmap
-
-This package will be updated on demand, based on the needs of projects developed by the owner or by contributions.
-
-# 📋 Usage Examples
-
-[This project](https://github.com/lucassvasconcelos/contas.api) uses this package in all layers.
-
 # 🚀 About
 
 CoreBox was developed under the MIT license.
