@@ -21,11 +21,11 @@ Semantic version uses the commit messages to determine the type of changes in th
 
 Commit example for new features:
 
-    <description> +semver:feature
+    feat: <description>
 
 Commit example for a bugfix:
 
-    <description> +semver:fix
+    fix: <description>
 
 To understand what the other types of commit descriptions take a look at the file `GitVersion.yml`.
 

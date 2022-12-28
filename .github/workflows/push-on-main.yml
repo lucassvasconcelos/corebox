@@ -1,4 +1,4 @@
-name: Sonar Report
+name: On Push To Main
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  sonarcloud:
+  job1:
+    name: Update Version and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -14,8 +15,41 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: dotnet Setup
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: GitVersion Setup
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+
+    - name: GitVersion Execute
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      id: gitversion
+      with:
+        useConfigFile: true
+
+    - name: install cake
+      run: dotnet tool restore
+
+    - name: dotnet Cake
+      run: dotnet cake
+      env:
+        GIT_VERSION: ${{ steps.gitversion.outputs.semVer }}
+
+    - name: CodeCov
+      uses: codecov/codecov-action@v3.1.1
+      with:
+        files: ./tests/CoreBox.Tests/coverage.opencover.xml
+        fail_ci_if_error: true
+
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    - name: Package Publish
+      run: dotnet nuget push -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }} ./src/CoreBox/bin/Release/*.nupkg --skip-duplicate
