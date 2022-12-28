@@ -39,4 +39,4 @@ This package will be updated on demand, based on the needs of projects developed
 
 # 🚀 About
 
-CoreBox was developed by [Lucas Vasconcelos](https://www.linkedin.com/in/lucassvasconcelos/) under the MIT license.
+CoreBox was developed under the MIT license.
