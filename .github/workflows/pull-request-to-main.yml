@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  test-and-build:
+  job1:
+    name: Analyze, Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +25,13 @@ jobs:
       run: dotnet cake
 
     - name: CodeCov
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v3.1.1
       with:
         files: ./tests/CoreBox.Tests/coverage.opencover.xml
         fail_ci_if_error: true
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
