@@ -102,7 +102,7 @@ public static class StringExtensions
         
         using (Aes encryptor = Aes.Create())
         {
-            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey));
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey), 100, HashAlgorithmName.SHA512);
             encryptor.Key = pdb.GetBytes(32);
             encryptor.IV = pdb.GetBytes(16);
             
@@ -129,7 +129,7 @@ public static class StringExtensions
         
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey));
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey), 100, HashAlgorithmName.SHA512);
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
                 
