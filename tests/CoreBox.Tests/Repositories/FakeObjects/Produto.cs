@@ -21,8 +21,6 @@ namespace CoreBox.Tests.Repositories
             => new Produto
             {
                 Id = id,
-                DataCriacao = dataCriacao,
-                DataUltimaAtualizacao = dataUltimaAtualizacao,
                 Nome = nome,
                 Preco = preco
             };
