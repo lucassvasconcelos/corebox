@@ -92,21 +92,5 @@ namespace CoreBox.Tests
             var pessoa = Pessoa.Criar(nomePessoa, numeroDocumento, dataEmissao);
             pessoa.ToString().Should().BeEquivalentTo($"{pessoa.GetType().Name} [Id = {pessoa.Id}]");
         }
-
-        [Theory, AutoMoqDataAttribute]
-        public void Entidade_Deve_Criar_Datas_Em_UTC_Ao_Ser_Instanciada(string nomePessoa, string numeroDocumento, DateTime dataEmissao)
-        {
-            var pessoa = Pessoa.Criar(nomePessoa, numeroDocumento, dataEmissao);
-            var tz = TimeZoneInfo.CreateCustomTimeZone("Americas/RJ", TimeSpan.Parse("03:00:00"), "Rio de Janeiro", "RJ");
-            
-            var dateWithTimeZone = TimeZoneInfo.ConvertTime(DateTime.UtcNow, tz);
-            
-            pessoa.DataCriacao.Should().BeBefore(dateWithTimeZone);
-            pessoa.IdUsuarioCriacao.Should().NotBeEmpty();
-            pessoa.DataUltimaAtualizacao.Should().BeNull();
-            pessoa.DataExclusao.Should().BeNull();
-            pessoa.IdUsuarioAtualizacao.Should().BeNull();
-            pessoa.IdUsuarioExclusao.Should().BeNull();
-        }
     }
 }

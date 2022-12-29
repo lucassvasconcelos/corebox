@@ -3,18 +3,9 @@ namespace CoreBox.Domain;
 public abstract class Entity<T> where T : Entity<T>
 {
     public Guid Id { get; protected set; }
-    public DateTime DataCriacao { get; protected set; }
-    public Guid IdUsuarioCriacao { get; protected set; }
-    public DateTime? DataUltimaAtualizacao { get; protected set; }
-    public Guid? IdUsuarioAtualizacao { get; protected set; }
-    public DateTime? DataExclusao { get; protected set; }
-    public Guid? IdUsuarioExclusao { get; protected set; }
 
     protected Entity()
-    {
-        Id = Guid.NewGuid();
-        DataCriacao = DateTime.UtcNow;
-    }
+        => Id = Guid.NewGuid();
 
     public override bool Equals(object obj)
     {
