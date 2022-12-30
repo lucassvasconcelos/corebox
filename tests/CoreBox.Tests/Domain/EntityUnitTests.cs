@@ -92,5 +92,12 @@ namespace CoreBox.Tests
             var pessoa = Pessoa.Criar(nomePessoa, numeroDocumento, dataEmissao);
             pessoa.ToString().Should().BeEquivalentTo($"{pessoa.GetType().Name} [Id = {pessoa.Id}]");
         }
+
+        [Theory, AutoMoqDataAttribute]
+        public void Deve_Construir_Entidade_Definindo_Id(Guid id, string nomePessoa, string numeroDocumento, DateTime dataEmissao)
+        {
+            var pessoa = Pessoa.CriarComId(id, nomePessoa, numeroDocumento, dataEmissao);
+            pessoa.Id.Should().Be(id);
+        }
     }
 }

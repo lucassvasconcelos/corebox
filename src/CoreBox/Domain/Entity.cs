@@ -4,8 +4,8 @@ public abstract class Entity<T> where T : Entity<T>
 {
     public Guid Id { get; protected set; }
 
-    protected Entity()
-        => Id = Guid.NewGuid();
+    protected Entity(Guid? id = null)
+        => Id = id.HasValue ? id.Value : Guid.NewGuid();
 
     public override bool Equals(object obj)
     {
