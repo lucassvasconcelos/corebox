@@ -9,7 +9,7 @@ public static class ExceptionExtensions
     public static HttpStatusCode ToHttpStatus(this Exception ex)
         => ex switch
         {
-            Exception _ex when _ex is ValidationException || _ex is BandRequestException => HttpStatusCode.BadRequest,
+            Exception _ex when _ex is ValidationException || _ex is BadRequestException => HttpStatusCode.BadRequest,
             Exception _ex when _ex is UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             Exception _ex when _ex is ForbiddenException => HttpStatusCode.Forbidden,
             Exception _ex when _ex is NotFoundException => HttpStatusCode.NotFound,
