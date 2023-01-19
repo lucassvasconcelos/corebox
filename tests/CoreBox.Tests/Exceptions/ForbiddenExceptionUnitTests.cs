@@ -5,12 +5,12 @@ using Xunit;
 
 namespace CoreBox.Tests.Exceptions
 {
-    public class ForbiddenAccessExceptionUnitTests
+    public class ForbiddenExceptionUnitTests
     {
         [Theory, AutoMoqDataAttribute]
-        public void Deve_Criar_Um_ForbiddenAccessException_Valida(string message)
+        public void Deve_Criar_Um_ForbiddenException_Valida(string message)
         {
-            var ex = new ForbiddenAccessException(message);
+            var ex = new ForbiddenException(message);
             ex.Message.Should().Be(message);
         }
     }

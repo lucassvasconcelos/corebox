@@ -18,7 +18,7 @@ namespace CoreBox.Tests.Extensions
             httpStatus.Should().Be(HttpStatusCode.BadRequest);
 
             httpStatus = businessRuleException.ToHttpStatus();
-            httpStatus.Should().Be(HttpStatusCode.BadRequest);
+            httpStatus.Should().Be(HttpStatusCode.Conflict);
         }
 
         [Theory, AutoMoqDataAttribute]
@@ -29,7 +29,7 @@ namespace CoreBox.Tests.Extensions
         }
 
         [Theory, AutoMoqDataAttribute]
-        public void Deve_Retornar_HttpStatus_Forbidden(ForbiddenAccessException exception)
+        public void Deve_Retornar_HttpStatus_Forbidden(ForbiddenException exception)
         {
             var httpStatus = exception.ToHttpStatus();
             httpStatus.Should().Be(HttpStatusCode.Forbidden);
@@ -50,7 +50,7 @@ namespace CoreBox.Tests.Extensions
         }
 
         [Theory, AutoMoqDataAttribute]
-        public void Deve_Retornar_HttpStatus_Gone(UnavailableException exception)
+        public void Deve_Retornar_HttpStatus_Gone(GoneException exception)
         {
             var httpStatus = exception.ToHttpStatus();
             httpStatus.Should().Be(HttpStatusCode.Gone);
