@@ -5,12 +5,12 @@ using Xunit;
 
 namespace CoreBox.Tests.Exceptions
 {
-    public class UnavailableExceptionUnitTests
+    public class GoneExceptionUnitTests
     {
         [Theory, AutoMoqDataAttribute]
-        public void Deve_Criar_Um_UnavailableException_Valida(string message)
+        public void Deve_Criar_Um_GoneException_Valida(string message)
         {
-            var ex = new UnavailableException(message);
+            var ex = new GoneException(message);
             ex.Message.Should().Be(message);
         }
     }
