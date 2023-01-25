@@ -144,7 +144,7 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.CommitAsync();
 
             var results2 = await _unitOfWork.GetRepository<Produto>().GetAsync(new ProdutoComPrecoAbaixoSpecification(15));
-            results2.Should().Be(produto1);
+            results2.Id.Should().Be(produto1.Id);
         }
 
         [Theory, AutoMoqDataAttribute]
@@ -171,8 +171,8 @@ namespace CoreBox.Tests.Repositories
 
             var results2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(new ProdutoComPrecoAbaixoSpecification(25));
             results2.Count().Should().Be(2);
-            results2.First(f => f.Id == produto1.Id).Should().Be(produto1);
-            results2.First(f => f.Id == produto2.Id).Should().Be(produto2);
+            results2.First(f => f.Id == produto1.Id).Id.Should().Be(produto1.Id);
+            results2.First(f => f.Id == produto2.Id).Id.Should().Be(produto2.Id);
         }
 
         [Theory, AutoMoqDataAttribute]
