@@ -16,7 +16,7 @@ public static class IServiceCollectionExtensions
     public static void AddMyDefaultCors(this IServiceCollection services, IConfiguration configuration)
         => services.AddCors(opts =>
         {
-            opts.AddDefaultPolicy(policy =>
+            opts.AddPolicy("MyDefaultCors", policy =>
             {
                 policy.AllowAnyHeader();
                 policy.AllowAnyMethod();
