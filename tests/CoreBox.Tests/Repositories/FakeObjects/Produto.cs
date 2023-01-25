@@ -5,6 +5,8 @@ namespace CoreBox.Tests.Repositories
 {
     public class Produto : Entity<Produto>
     {
+        public Guid Id { get; set; }
+        
         public string Nome { get; private set; }
         public decimal Preco { get; private set; }
 

@@ -5,7 +5,7 @@ namespace CoreBox.Tests
 {
     public class Pessoa : Entity<Pessoa>
     {
-        public Pessoa(Guid? id = null) : base(id)
+        public Pessoa(Guid? id = null)
         {
         }
 
