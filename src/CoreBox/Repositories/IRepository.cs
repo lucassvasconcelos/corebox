@@ -10,7 +10,6 @@ public interface IRepository<TEntity> where TEntity : Entity<TEntity>
     Task UpdateAsync(TEntity entity);
     Task DeleteAsync(TEntity entity);
     Task DeleteRangeAsync(IEnumerable<TEntity> entities);
-    Task<TEntity> GetByIdAsync(Guid id);
     Task<TEntity> GetAsync(Specification<TEntity> specification);
     Task<IReadOnlyList<TEntity>> GetAllAsync(Specification<TEntity> specification = null);
     Task<bool> AnyAsync(Specification<TEntity> specification);

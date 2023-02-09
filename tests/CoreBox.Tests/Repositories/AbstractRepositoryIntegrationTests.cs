@@ -63,7 +63,7 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);
             await _unitOfWork.CommitAsync();
 
-            var result = await _unitOfWork.GetRepository<Produto>().GetByIdAsync(produto.Id);
+            var result = await _unitOfWork.GetRepository<Produto>().GetAsync(new ProdutoPorIdSpecification(produto.Id));
             result.Id.Should().Be(produto.Id);
             result.Nome.Should().Be(produto.Nome);
             result.Preco.Should().Be(produto.Preco);
@@ -73,7 +73,7 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().UpdateAsync(result);
             await _unitOfWork.CommitAsync();
 
-            var result2 = await _unitOfWork.GetRepository<Produto>().GetByIdAsync(produto.Id);
+            var result2 = await _unitOfWork.GetRepository<Produto>().GetAsync(new ProdutoPorIdSpecification(produto.Id));
             result2.Id.Should().Be(produto.Id);
             result2.Nome.Should().Be(produto.Nome);
             result2.Preco.Should().Be(produto.Preco + 50);

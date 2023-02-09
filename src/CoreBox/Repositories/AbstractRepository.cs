@@ -40,9 +40,6 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
         return Task.CompletedTask;
     }
 
-    public virtual async Task<TEntity> GetByIdAsync(Guid id)
-        => await _entity.FindAsync(id);
-
     public virtual async Task<TEntity> GetAsync(Specification<TEntity> specification)
         => await _entity.AsQueryable().FirstOrDefaultAsync(specification.ToExpression());
 
