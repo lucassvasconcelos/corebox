@@ -26,6 +26,17 @@ namespace CoreBox.Tests.Extensions
             => email.OnlyStringNumbers().Should().Be(resultado);
 
         [Theory]
+        [InlineData("ÁÉÍÓÚÂÊÔÀÈÌÒÙÃÕÇáéíóúâêôàèìòùãõç", "AEIOUAEOAEIOUAOCaeiouaeoaeiouaoc")]
+        [InlineData("!@#$%¨&*()", "")]
+        [InlineData("Evolução Tech", "Evolucao Tech")]
+        public void ValidarSaneamentoDeAcentuacoesESimbolos(string texto, string resultado)
+        {
+            var teste = texto.Unaccent();
+
+            teste.Should().Be(resultado);
+        }
+
+        [Theory]
         [InlineData("123.456.789-09", true)]
         [InlineData("12345678909", true)]
         [InlineData("436.828.480-10", true)]

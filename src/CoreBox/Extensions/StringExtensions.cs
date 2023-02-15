@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -95,17 +96,35 @@ public static class StringExtensions
 
     public static string OnlyStringNumbers(this string text)
         => new String(text.Trim().Where(Char.IsDigit).ToArray());
-    
+
+    public static string Unaccent(this string text)
+    {
+        // Normaliza a string para remover acentos e outros diacríticos
+        string semAcentos = text.Normalize(NormalizationForm.FormD);
+        var regex = new Regex("[^a-zA-Z0-9\\s]");
+
+        // Substitui caracteres especiais por espaços em branco
+        string semCaracteresEspeciais = regex.Replace(semAcentos, "");
+
+        // Substitui caracteres de espaço, tabulação e nova linha por espaços em branco
+        string semEspacosExtras = Regex.Replace(semCaracteresEspeciais, "\\s+", " ");
+
+        // Remove espaços em branco do começo e do final da string
+        string resultadoFinal = semEspacosExtras.Trim();
+
+        return resultadoFinal;
+    }
+
     public static string Encrypt(this string text, string customInfo, string saltKey)
     {
         byte[] bytes = Encoding.Unicode.GetBytes(text);
-        
+
         using (Aes encryptor = Aes.Create())
         {
             Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey), 100, HashAlgorithmName.SHA512);
             encryptor.Key = pdb.GetBytes(32);
             encryptor.IV = pdb.GetBytes(16);
-            
+
             using (MemoryStream ms = new MemoryStream())
             {
                 using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
@@ -113,7 +132,7 @@ public static class StringExtensions
                     cs.Write(bytes, 0, bytes.Length);
                     cs.Close();
                 }
-                
+
                 text = Convert.ToBase64String(ms.ToArray());
             }
         }
@@ -126,13 +145,13 @@ public static class StringExtensions
         try
         {
             byte[] bytes = Convert.FromBase64String(text);
-        
+
             using (Aes encryptor = Aes.Create())
             {
                 Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(customInfo, Encoding.ASCII.GetBytes(saltKey), 100, HashAlgorithmName.SHA512);
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
-                
+
                 using (MemoryStream ms = new MemoryStream())
                 {
                     using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
@@ -140,11 +159,11 @@ public static class StringExtensions
                         cs.Write(bytes, 0, bytes.Length);
                         cs.Close();
                     }
-                    
+
                     text = Encoding.Unicode.GetString(ms.ToArray());
                 }
             }
-            
+
             return text;
         }
         catch (CryptographicException)
