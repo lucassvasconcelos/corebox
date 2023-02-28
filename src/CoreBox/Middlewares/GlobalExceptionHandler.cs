@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json;
 using CoreBox.Extensions;
 using CoreBox.Types;
 using Microsoft.AspNetCore.Diagnostics;
@@ -14,7 +15,7 @@ public static class GlobalExceptionHandler
 
         if (exception != null)
         {
-            string errorMessage = exception.Error != null ? exception.Error.Message : string.Empty;
+            string errorMessage = JsonSerializer.Serialize(new { Error = exception.Error.GetMessage() });
             context.Response.ContentLength = errorMessage.Length;
             context.Response.StatusCode = (int)exception.Error.ToHttpStatus();
             context.Response.ContentType = MimeType.json;
