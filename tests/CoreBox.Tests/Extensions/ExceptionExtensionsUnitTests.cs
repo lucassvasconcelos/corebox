@@ -83,5 +83,20 @@ namespace CoreBox.Tests.Extensions
             var httpStatus = exception.ToHttpStatus();
             httpStatus.Should().Be(HttpStatusCode.InternalServerError);
         }
+
+        [Fact]
+        public void Deve_Retornar_A_Mensgem_Para_Exception_Comum()
+        {
+            var exception = new Exception("Custom exception");
+            exception.GetMessage().Should().Be("Custom exception");
+        }
+
+        [Fact]
+        public void Deve_Retornar_A_Mensgem_Para_Agregate_Exception()
+        {
+            var exception = new Exception("Custom exception");
+            var aggregateException = new AggregateException(exception);
+            aggregateException.GetMessage().Should().Be("Custom exception");
+        }
     }
 }
