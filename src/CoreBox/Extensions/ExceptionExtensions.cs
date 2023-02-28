@@ -7,7 +7,7 @@ namespace CoreBox.Extensions;
 public static class ExceptionExtensions
 {
     public static string GetMessage(this Exception ex) =>
-        ex is AggregateException ? ex.InnerException.Message : ex.Message;
+        ex is AggregateException ? ex.InnerException.Message : ex?.Message;
 
     public static HttpStatusCode ToHttpStatus(this Exception ex)
         => ex switch
