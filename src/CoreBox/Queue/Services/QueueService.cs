@@ -13,6 +13,8 @@ public class QueueService : IQueueService
 
     public void Publish(PublishRequest request)
     {
+        ValidatePublishRequest(request);
+
         using IConnection connection = request.ConnectionFactory.CreateConnection();
         using IModel channel = connection.CreateModel();
 
@@ -24,8 +26,22 @@ public class QueueService : IQueueService
         );
     }
 
+    private static void ValidatePublishRequest(PublishRequest request)
+    {
+        if (request is null)
+            throw new ArgumentException("O campo requisição é obrigatório");
+
+        if (request.Publish is null)
+            throw new ArgumentException("As configurações de publicação na fila são obrigatórias");
+
+        if (request.ConnectionFactory is null)
+            throw new ArgumentException("As configurações de conexão com a fila são obrigatórias");
+    }
+
     public void Receive(ReceiveRequest request)
     {
+        ValidateReceiveRequest(request);
+
         using IConnection connection = request.ConnectionFactory.CreateConnection();
         using IModel channel = connection.CreateModel();
 
@@ -41,5 +57,17 @@ public class QueueService : IQueueService
         );
 
         Console.ReadLine();
+    }
+
+    private static void ValidateReceiveRequest(ReceiveRequest request)
+    {
+        if (request is null)
+            throw new ArgumentException("O campo requisição é obrigatório");
+
+        if (request.ConnectionFactory is null)
+            throw new ArgumentException("As configurações de conexão com a fila são obrigatórias");
+
+        if (request.Receive is null)
+            throw new ArgumentException("As configurações de escuta da fila são obrigatórias");
     }
 }
