@@ -26,10 +26,10 @@ public class QueueService : IQueueService
 
     public void Receive(ReceiveRequest request)
     {
-        using var connection = request.ConnectionFactory.CreateConnection();
-        using var channel = connection.CreateModel();
+        using IConnection connection = request.ConnectionFactory.CreateConnection();
+        using IModel channel = connection.CreateModel();
 
-        var consumer = new EventingBasicConsumer(channel);
+        EventingBasicConsumer consumer = new(channel);
 
         consumer.Received += (model, ea) =>
             request.Receive.MessageHandler(Encoding.UTF8.GetString(ea.Body.ToArray()));
