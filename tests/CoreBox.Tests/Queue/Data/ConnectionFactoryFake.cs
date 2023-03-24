@@ -24,10 +24,8 @@ namespace CoreBox.Tests.Queue.Data
             return default!;
         }
 
-        public virtual IConnection CreateConnection()
-        {
-            return default!;
-        }
+        public virtual IConnection CreateConnection() =>
+            new ConnectionFake();
 
         public IConnection CreateConnection(string clientProvidedName)
         {

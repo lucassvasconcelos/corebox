@@ -80,14 +80,11 @@ public class ConnectionFake : IConnection
         throw new NotImplementedException();
     }
 
-    public virtual IModel CreateModel()
-    {
-        throw new NotImplementedException();
-    }
+    public virtual IModel CreateModel() =>
+        new ModelFake();
 
     public void Dispose()
     {
-        throw new NotImplementedException();
     }
 
     public void HandleConnectionBlocked(string reason)

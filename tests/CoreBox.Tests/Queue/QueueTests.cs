@@ -16,14 +16,16 @@ public class QueueTests
     [Fact]
     public void Deve_Criar_QueueService()
     {
-        IQueueService queueService = new QueueService();
+        IConnectionFactory connectionFactory = new ConnectionFactoryFake();
+        using IQueueService queueService = new QueueService(connectionFactory);
         queueService.Should().NotBeNull();
     }
 
     [Fact]
     public void Nao_Deve_Publicar_Uma_Mensagem_Sem_Informar_A_Requisicao()
     {
-        IQueueService queueService = new QueueService();
+        IConnectionFactory connectionFactory = new ConnectionFactoryFake();
+        using IQueueService queueService = new QueueService(connectionFactory);
 
         Func<Task> act = () =>
         {
@@ -38,36 +40,9 @@ public class QueueTests
             );
     }
 
-    [Theory]
-    [ClassData(typeof(InvalidRequest))]
-    public void Nao_Deve_Publicar_Uma_Mensagem_Com_Requisicao_Invalida(ConnectionFactory connectionFactory, Publish publish, string error)
-    {
-        IQueueService queueService = new QueueService();
-
-        Func<Task> act = () =>
-        {
-            queueService.Publish(
-                new PublishRequest
-                {
-                    ConnectionFactory = connectionFactory,
-                    Publish = publish
-                }
-            );
-            return Task.CompletedTask;
-        };
-
-        act.Should()
-            .ThrowExactlyAsync<ArgumentException>()
-            .Where(item =>
-                item.Message.Contains(error)
-            );
-    }
-
     [Fact]
     public void Deve_Enviar_A_Mensagem()
     {
-        IQueueService queueService = new QueueService();
-
         var modelFake = new Mock<ModelFake>();
         modelFake.Setup(item => item.BasicPublish(
             It.IsAny<string>(),
@@ -83,17 +58,15 @@ public class QueueTests
         var connectionFactory = new Mock<ConnectionFactoryFake>();
         connectionFactory.Setup(item => item.CreateConnection()).Returns(connectionFake.Object);
 
+        IQueueService queueService = new QueueService(connectionFactory.Object);
+
         queueService.Publish(
             new PublishRequest
             {
-                ConnectionFactory = connectionFactory.Object,
-                Publish = new Publish
-                {
-                    BasicProperties = null,
-                    Body = "Message",
-                    Exchange = string.Empty,
-                    RoutingKey = "teste"
-                }
+                BasicProperties = null,
+                Message = "Message",
+                Exchange = string.Empty,
+                RoutingKey = "teste"
             }
         );
 

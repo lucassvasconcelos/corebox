@@ -12,7 +12,6 @@ public class InvalidRequest : IEnumerable<object[]>
         return new List<object[]>
         {
             new object[] { null, null, "As configurações de publicação na fila são obrigatórias" },
-            new object[] { null, new Publish(), "As configurações de publicação na fila são obrigatórias" },
             new object[] { new ConnectionFactory(), null, "As configurações de conexão com a fila são obrigatórias" }
         };
     }

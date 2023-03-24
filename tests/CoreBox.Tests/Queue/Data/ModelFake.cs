@@ -7,6 +7,8 @@ namespace CoreBox.Tests.Queue.Data;
 
 public class ModelFake : IModel
 {
+    public List<ReadOnlyMemory<byte>> Messages { get; set; } = new List<ReadOnlyMemory<byte>>();
+
     public int ChannelNumber => throw new NotImplementedException();
 
     public ShutdownEventArgs CloseReason => throw new NotImplementedException();
@@ -56,7 +58,7 @@ public class ModelFake : IModel
 
     public string BasicConsume(string queue, bool autoAck, string consumerTag, bool noLocal, bool exclusive, IDictionary<string, object> arguments, IBasicConsumer consumer)
     {
-        throw new NotImplementedException();
+        return string.Empty;
     }
 
     public BasicGetResult BasicGet(string queue, bool autoAck)
@@ -71,6 +73,7 @@ public class ModelFake : IModel
 
     public virtual void BasicPublish(string exchange, string routingKey, bool mandatory, IBasicProperties basicProperties, ReadOnlyMemory<byte> body)
     {
+        Messages.Add(body);
     }
 
     public void BasicQos(uint prefetchSize, ushort prefetchCount, bool global)
