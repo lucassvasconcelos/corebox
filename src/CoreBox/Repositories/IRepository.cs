@@ -1,5 +1,5 @@
+using System.Linq.Expressions;
 using CoreBox.Domain;
-using CoreBox.Specification;
 
 namespace CoreBox.Repositories;
 
@@ -10,7 +10,7 @@ public interface IRepository<TEntity> where TEntity : Entity<TEntity>
     Task UpdateAsync(TEntity entity);
     Task DeleteAsync(TEntity entity);
     Task DeleteRangeAsync(IEnumerable<TEntity> entities);
-    Task<TEntity> GetAsync(Specification<TEntity> specification);
-    Task<IReadOnlyList<TEntity>> GetAllAsync(Specification<TEntity> specification = null);
-    Task<bool> AnyAsync(Specification<TEntity> specification);
+    Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);
+    Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
 }

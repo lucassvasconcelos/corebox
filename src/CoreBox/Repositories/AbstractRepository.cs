@@ -1,5 +1,5 @@
+using System.Linq.Expressions;
 using CoreBox.Domain;
-using CoreBox.Specification;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreBox.Repositories;
@@ -40,17 +40,17 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
         return Task.CompletedTask;
     }
 
-    public virtual async Task<TEntity> GetAsync(Specification<TEntity> specification)
-        => await _entity.AsQueryable().FirstOrDefaultAsync(specification.ToExpression());
+    public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        => await _entity.AsQueryable().FirstOrDefaultAsync(predicate);
 
-    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Specification<TEntity> specification = null)
+    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null)
     {
-        if (specification is null)
+        if (predicate is null)
             return await _entity.AsQueryable().ToListAsync();
 
-        return await _entity.Where(specification.ToExpression()).AsQueryable().ToListAsync();
+        return await _entity.Where(predicate).AsQueryable().ToListAsync();
     }
 
-    public virtual async Task<bool> AnyAsync(Specification<TEntity> specification)
-        => await _entity.AsQueryable().AnyAsync(specification.ToExpression());
+    public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
+        => await _entity.AsQueryable().AnyAsync(predicate);
 }

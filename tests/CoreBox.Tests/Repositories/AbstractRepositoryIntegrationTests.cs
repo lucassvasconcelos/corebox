@@ -63,7 +63,8 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);
             await _unitOfWork.CommitAsync();
 
-            var result = await _unitOfWork.GetRepository<Produto>().GetAsync(new ProdutoPorIdSpecification(produto.Id));
+            var spec1 = new ProdutoPorIdSpecification(produto.Id);
+            var result = await _unitOfWork.GetRepository<Produto>().GetAsync(spec1.ToExpression());
             result.Id.Should().Be(produto.Id);
             result.Nome.Should().Be(produto.Nome);
             result.Preco.Should().Be(produto.Preco);
@@ -73,7 +74,8 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().UpdateAsync(result);
             await _unitOfWork.CommitAsync();
 
-            var result2 = await _unitOfWork.GetRepository<Produto>().GetAsync(new ProdutoPorIdSpecification(produto.Id));
+            var spec2 = new ProdutoPorIdSpecification(produto.Id);
+            var result2 = await _unitOfWork.GetRepository<Produto>().GetAsync(spec2.ToExpression());
             result2.Id.Should().Be(produto.Id);
             result2.Nome.Should().Be(produto.Nome);
             result2.Preco.Should().Be(produto.Preco + 50);
@@ -143,7 +145,8 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto3);
             await _unitOfWork.CommitAsync();
 
-            var results2 = await _unitOfWork.GetRepository<Produto>().GetAsync(new ProdutoComPrecoAbaixoSpecification(15));
+            var spec1 = new ProdutoComPrecoAbaixoSpecification(15);
+            var results2 = await _unitOfWork.GetRepository<Produto>().GetAsync(spec1.ToExpression());
             results2.Id.Should().Be(produto1.Id);
         }
 
@@ -169,7 +172,8 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto3);
             await _unitOfWork.CommitAsync();
 
-            var results2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(new ProdutoComPrecoAbaixoSpecification(25));
+            var spec1 = new ProdutoComPrecoAbaixoSpecification(25);
+            var results2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(spec1.ToExpression());
             results2.Count().Should().Be(2);
             results2.First(f => f.Id == produto1.Id).Id.Should().Be(produto1.Id);
             results2.First(f => f.Id == produto2.Id).Id.Should().Be(produto2.Id);
@@ -181,7 +185,8 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);
             await _unitOfWork.CommitAsync();
 
-            var result = await _unitOfWork.GetRepository<Produto>().AnyAsync(new ProdutoPorIdSpecification(produto.Id));
+            var spec1 = new ProdutoPorIdSpecification(produto.Id);
+            var result = await _unitOfWork.GetRepository<Produto>().AnyAsync(spec1.ToExpression());
 
             result.Should().BeTrue();
         }
@@ -192,7 +197,8 @@ namespace CoreBox.Tests.Repositories
             await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);
             await _unitOfWork.CommitAsync();
 
-            var result = await _unitOfWork.GetRepository<Produto>().AnyAsync(new ProdutoPorIdSpecification(Guid.NewGuid()));
+            var spec1 = new ProdutoPorIdSpecification(Guid.NewGuid());
+            var result = await _unitOfWork.GetRepository<Produto>().AnyAsync(spec1.ToExpression());
 
             result.Should().BeFalse();
         }
