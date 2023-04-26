@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace CoreBox.Extensions;
 
 public static class DateTimeExtensions
@@ -22,5 +24,14 @@ public static class DateTimeExtensions
             return dt.AddYears(-(dt.Year - year));
         else
             return dt.AddYears(year - dt.Year);
+    }
+
+    [ExcludeFromCodeCoverage]
+    public static int GetAge(this DateTime dt)
+    {
+        var today = DateTime.UtcNow.Date;
+        var age = today.Year - dt.Year;
+        if (dt > today.AddYears(-age)) age--;
+        return age;
     }
 }
