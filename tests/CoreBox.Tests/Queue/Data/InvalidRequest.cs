@@ -7,7 +7,7 @@ namespace CoreBox.Tests.Queue.Data;
 
 public class InvalidRequest : IEnumerable<object[]>
 {
-    private List<object[]> Get_data()
+    private static List<object[]> Get_data()
     {
         return new List<object[]>
         {

@@ -8,7 +8,7 @@ on:
 jobs:
   job1:
     name: Update Version and Deploy
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
@@ -45,8 +45,15 @@ jobs:
         files: ./tests/CoreBox.Tests/coverage.opencover.xml
         fail_ci_if_error: true
 
+    - name: Setup Sonnar Scanner Tool
+      run: dotnet tool install --global dotnet-sonarscanner
+
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
+      run: |
+        dotnet-sonarscanner begin /k:"lucassvasconcelos_corebox" /o:"lucassvasconcelos" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+        dotnet build
+        dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      shell: bash
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
