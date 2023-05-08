@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -99,19 +98,11 @@ public static class StringExtensions
 
     public static string Unaccent(this string text)
     {
-        // Normaliza a string para remover acentos e outros diacríticos
-        string semAcentos = text.Normalize(NormalizationForm.FormD);
         var regex = new Regex("[^a-zA-Z0-9\\s]");
-
-        // Substitui caracteres especiais por espaços em branco
+        string semAcentos = text.Normalize(NormalizationForm.FormD);
         string semCaracteresEspeciais = regex.Replace(semAcentos, "");
-
-        // Substitui caracteres de espaço, tabulação e nova linha por espaços em branco
         string semEspacosExtras = Regex.Replace(semCaracteresEspeciais, "\\s+", " ");
-
-        // Remove espaços em branco do começo e do final da string
         string resultadoFinal = semEspacosExtras.Trim();
-
         return resultadoFinal;
     }
 

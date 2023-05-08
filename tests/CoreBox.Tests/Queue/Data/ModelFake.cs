@@ -23,6 +23,8 @@ public class ModelFake : IModel
 
     public TimeSpan ContinuationTimeout { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+    public string CurrentQueue => throw new NotImplementedException();
+
     public event EventHandler<BasicAckEventArgs> BasicAcks;
     public event EventHandler<BasicNackEventArgs> BasicNacks;
     public event EventHandler<EventArgs> BasicRecoverOk;

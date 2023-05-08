@@ -35,7 +35,7 @@ namespace CoreBox.Tests.Specification
             var pessoasComDeficiencia = _pessoas.Where(pessoa
                 => pessoaComDeficiencia.IsSatisfiedBy(pessoa)).ToList();
 
-            pessoasComDeficiencia.Count().Should().Be(2);
+            pessoasComDeficiencia.Count.Should().Be(2);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace CoreBox.Tests.Specification
             var pessoasMenoresDeIdadeDoSexoMasculino = _pessoas.Where(pessoa
                 => pessoaMenorIdade.And(pessoaSexoMasculino).IsSatisfiedBy(pessoa)).ToList();
 
-            pessoasMenoresDeIdadeDoSexoMasculino.Count().Should().Be(2);
+            pessoasMenoresDeIdadeDoSexoMasculino.Count.Should().Be(2);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace CoreBox.Tests.Specification
             var pessoasMenoresDeIdadeDoSexoMasculino = _pessoas.Where(pessoa
                 => pessoaMenorIdade.And(pessoaSexoMasculino.Or(pessoaSexoFeminino)).IsSatisfiedBy(pessoa)).ToList();
 
-            pessoasMenoresDeIdadeDoSexoMasculino.Count().Should().Be(4);
+            pessoasMenoresDeIdadeDoSexoMasculino.Count.Should().Be(4);
         }
 
         [Fact]
@@ -71,7 +71,7 @@ namespace CoreBox.Tests.Specification
             var pessoasNaoIdosas = _pessoas.Where(pessoa
                 => pessoaIdosa.Not().IsSatisfiedBy(pessoa)).ToList();
 
-            pessoasNaoIdosas.Count().Should().Be(9);
+            pessoasNaoIdosas.Count.Should().Be(9);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace CoreBox.Tests.Specification
             var mulheresMaioresDeIdade = _pessoas.Where(pessoa
                 => spec.IsSatisfiedBy(pessoa)).ToList();
 
-            mulheresMaioresDeIdade.Count().Should().Be(3);
+            mulheresMaioresDeIdade.Count.Should().Be(3);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace CoreBox.Tests.Specification
             var pessoasDeQualquerSexo = _pessoas.Where(pessoa
                 => spec.IsSatisfiedBy(pessoa)).ToList();
 
-            pessoasDeQualquerSexo.Count().Should().Be(10);
+            pessoasDeQualquerSexo.Count.Should().Be(10);
         }
 
         [Fact]
@@ -112,7 +112,7 @@ namespace CoreBox.Tests.Specification
             var pessoasComDeficiencia = _pessoas.Where(pessoa
                 => pcd.And(spec).IsSatisfiedBy(pessoa)).ToList();
 
-            pessoasComDeficiencia.Count().Should().Be(2);
+            pessoasComDeficiencia.Count.Should().Be(2);
         }
     }
 }

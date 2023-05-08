@@ -1,6 +1,5 @@
 using System;
 using System.Security.Cryptography;
-using CoreBox.Exceptions;
 using CoreBox.Extensions;
 using FluentAssertions;
 using Xunit;

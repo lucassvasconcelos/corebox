@@ -52,5 +52,6 @@ public class QueueService : IQueueService
     {
         _channel.Dispose();
         _connection.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

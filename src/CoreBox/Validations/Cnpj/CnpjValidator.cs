@@ -24,9 +24,9 @@ public class CnpjValidator<T, TProperty> : PropertyValidator<T, TProperty>
         return val.EndsWith(digits);
     }
 
-    private bool IsValidLength (string value) => !string.IsNullOrWhiteSpace(value) && value.Length != _validLength;
+    private bool IsValidLength(string value) => !string.IsNullOrWhiteSpace(value) && value.Length != _validLength;
 
-    private static bool AllDigitsAreEqual (string value) => value.All(x => x == value.FirstOrDefault());
+    private static bool AllDigitsAreEqual(string value) => value.All(x => x == value.FirstOrDefault());
 
     private string GetDigits(int[] cpf)
     {
