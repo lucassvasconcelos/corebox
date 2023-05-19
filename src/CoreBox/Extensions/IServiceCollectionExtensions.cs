@@ -13,36 +13,17 @@ public static class IServiceCollectionExtensions
         => services.AddControllers().AddJsonOptions(opts
             => opts.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
 
-    public static void AddMyDefaultCors(this IServiceCollection services, IConfiguration configuration)
+    public static void AddMyDefaultCors(this IServiceCollection services, string allowedOrigins, string exposedHeaders)
         => services.AddCors(opts =>
         {
             opts.AddPolicy("MyDefaultCors", policy =>
             {
                 policy.AllowAnyHeader();
                 policy.AllowAnyMethod();
-                policy.WithOrigins(configuration["AllowedOrigins"].Split(';'));
+                policy.WithOrigins(allowedOrigins.Split(';'));
                 policy.SetIsOriginAllowedToAllowWildcardSubdomains();
                 policy.AllowCredentials();
-                policy.WithExposedHeaders(configuration["ExposedHeaders"].Split(';'));
+                policy.WithExposedHeaders(exposedHeaders.Split(';'));
             });
         });
-
-    public static void AddMyDefaultAuthentication(this IServiceCollection services, IConfiguration configuration)
-        => services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(GetJwtBearerOptions(configuration));
-
-    public static Action<JwtBearerOptions> GetJwtBearerOptions(IConfiguration configuration)
-        => opts =>
-        {
-            opts.SaveToken = false;
-            opts.RequireHttpsMetadata = false;
-            opts.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = configuration["Auth:Issuer"],
-                ValidateAudience = true,
-                ValidAudience = configuration["Auth:Audience"],
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Auth:SecretKey"]))
-            };
-        };
 }

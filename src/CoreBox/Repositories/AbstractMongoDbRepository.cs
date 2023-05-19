@@ -11,9 +11,9 @@ public class AbstractMongoDbRepository<T> : IMongoDbRepository<T>
     private readonly string _databaseName;
     private readonly string _collectionName;
 
-    public AbstractMongoDbRepository(IConfiguration _configuration, string databaseName, string collectionName)
+    public AbstractMongoDbRepository(string mongoDbConnection, string databaseName, string collectionName)
     {
-        _connectionString = _configuration.GetConnectionString("MongoDbConnection");
+        _connectionString = mongoDbConnection;
         _databaseName = databaseName;
         _collectionName = collectionName;
     }
