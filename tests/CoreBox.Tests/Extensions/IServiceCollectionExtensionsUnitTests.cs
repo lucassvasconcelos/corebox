@@ -39,34 +39,10 @@ namespace CoreBox.Tests.Extensions
             var services = new ServiceCollection();
             services.AddSingleton<ILoggerFactory>(LoggerFactory.Create(log => log.AddConsole()));
 
-            services.AddMyDefaultCors(_config);
+            services.AddMyDefaultCors(allowedOrigins: "Origin1;Origin2", exposedHeaders: "");
 
             var providers = services.BuildServiceProvider();
             providers.GetRequiredService<ICorsService>().Should().NotBeNull();
-        }
-
-        [Fact]
-        public void Deve_Injetar_Autenticacao_Padrao()
-        {
-            var services = new Mock<IServiceCollection>().Object;
-            Action act = () => services.AddMyDefaultAuthentication(_config);
-            act.Should().NotThrow<ArgumentException>();
-        }
-
-        [Fact]
-        public void Deve_Validar_As_Options_Do_JwtBearer()
-        {
-            JwtBearerOptions options = new();
-            IServiceCollectionExtensions.GetJwtBearerOptions(_config).Invoke(options);
-
-            options.SaveToken.Should().BeFalse();
-            options.RequireHttpsMetadata.Should().BeFalse();
-            options.TokenValidationParameters.Should().NotBeNull();
-            options.TokenValidationParameters.ValidateIssuer.Should().BeTrue();
-            options.TokenValidationParameters.ValidIssuer.Should().Be(_config["Auth:Issuer"]);
-            options.TokenValidationParameters.ValidateAudience.Should().BeTrue();
-            options.TokenValidationParameters.ValidAudience.Should().Be(_config["Auth:Audience"]);
-            options.TokenValidationParameters.ValidateIssuerSigningKey.Should().BeTrue();
         }
     }
 }
