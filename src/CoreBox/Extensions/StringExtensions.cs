@@ -162,4 +162,19 @@ public static class StringExtensions
             throw new CryptographicException("Não foi possível decodificar a senha com os dados informados");
         }
     }
+
+    public static string MD5Encrypt(this string text)
+    {
+        using (MD5 md5 = MD5.Create())
+        {
+            byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hashBytes.Length; i++)
+                sb.Append(hashBytes[i].ToString("x2"));
+
+            return sb.ToString();
+        }
+    }
 }

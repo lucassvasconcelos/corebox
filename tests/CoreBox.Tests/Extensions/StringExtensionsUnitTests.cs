@@ -132,5 +132,15 @@ namespace CoreBox.Tests.Extensions
             Action act = () => passwordHash.Decrypt("email2@gmail.com", "s4Itk3y");
             act.Should().ThrowExactly<CryptographicException>().WithMessage("Não foi possível decodificar a senha com os dados informados");
         }
+
+        [Theory]
+        [InlineData("123", "202cb962ac59075b964b07152d234b70")]
+        [InlineData("test", "098f6bcd4621d373cade4e832627b4f6")]
+        [InlineData("password", "5f4dcc3b5aa765d61d8327deb882cf99")]
+        public void ValidarEncriptacaoMD5(string texto, string resultado)
+        {
+            var teste = texto.MD5Encrypt();
+            teste.Should().Be(resultado);
+        }
     }
 }
