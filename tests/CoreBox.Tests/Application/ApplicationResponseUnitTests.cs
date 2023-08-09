@@ -10,22 +10,30 @@ namespace CoreBox.Tests.Application;
 public class ApplicationResponseUnitTests
 {
     [Fact]
-    public void Deve_Gerar_Uma_Resposta_De_Sucesso()
+    public void Deve_Gerar_Uma_Resposta_De_Sucesso_Sem_Dados()
     {
-        var response = ApplicationResponse<int>.Success(200, 1);
+        var response = ApplicationResponse<object>.Ok();
+        response.StatusCode.Should().Be(200);
+        response.Data.Should().Be(null);
+        response.Errors.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Deve_Gerar_Uma_Resposta_De_Sucesso_Com_Dados()
+    {
+        var response = ApplicationResponse<int>.Ok(1);
         response.StatusCode.Should().Be(200);
         response.Data.Should().Be(1);
         response.Errors.Should().BeEmpty();
     }
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(400)]
-    [InlineData(500)]
-    public void Deve_Gerar_Uma_Exception_Caso_Resposta_De_Sucesso_Tenha_HttpStatus_Invalido(int statusCode)
+    [Fact]
+    public void Deve_Gerar_Uma_Resposta_De_Sucesso_Ao_Criar()
     {
-        Action act = () => ApplicationResponse<int>.Success(statusCode, 1);
-        act.Should().ThrowExactly<Exception>();
+        var response = ApplicationResponse<int>.Created(1);
+        response.StatusCode.Should().Be(201);
+        response.Data.Should().Be(1);
+        response.Errors.Should().BeEmpty();
     }
 
     [Fact]
@@ -52,7 +60,7 @@ public class ApplicationResponseUnitTests
     [Fact]
     public void Deve_Gerar_Uma_Resposta_De_Falha_Com_Erros()
     {
-        var response = ApplicationResponse<object>.FailWithErrors(400, new List<string> { "Erro 1", "Erro 2" });
+        var response = ApplicationResponse<object>.Fail(400, new List<string> { "Erro 1", "Erro 2" });
         response.StatusCode.Should().Be(400);
         response.Data.Should().BeNull();
         response.Errors.Should().HaveCount(2);
@@ -65,7 +73,7 @@ public class ApplicationResponseUnitTests
     [InlineData(300)]
     public void Deve_Gerar_Uma_Exception_Caso_Resposta_De_Falha_Com_Erros_Tenha_HttpStatus_Invalido(int statusCode)
     {
-        Action act = () => ApplicationResponse<object>.FailWithErrors(statusCode, new List<string> { "Erro 1", "Erro 2" });
+        Action act = () => ApplicationResponse<object>.Fail(statusCode, new List<string> { "Erro 1", "Erro 2" });
         act.Should().ThrowExactly<Exception>();
     }
 }
