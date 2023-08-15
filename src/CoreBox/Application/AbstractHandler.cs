@@ -27,6 +27,14 @@ public abstract class AbstractHandler
         return true;
     }
 
+    public async Task<bool> NotificationHasBeenPublishedAsync(bool condition, int httpStatusCode, List<string> errors)
+    {
+        if (!condition) return false;
+
+        await _mediator.Publish(new AppNotification(httpStatusCode, errors), default);
+        return true;
+    }
+
     public async Task<bool> NotificationHasBeenPublishedAsync(bool condition, int httpStatusCode, List<ValidationFailure> errors)
     {
         if (!condition) return false;
