@@ -43,12 +43,22 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
     public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
         => await _entity.AsQueryable().FirstOrDefaultAsync(predicate);
 
-    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null)
+    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null, int? skip = null, int? take = null, Expression<Func<TEntity, object>> orderBy = null, bool orderByDescending = false, bool noTracking = false)
     {
-        if (predicate is null)
-            return await _entity.AsQueryable().ToListAsync();
+        var query = _entity.AsQueryable();
 
-        return await _entity.Where(predicate).AsQueryable().ToListAsync();
+        if (predicate != null) query = query.Where(predicate);
+        if (skip.HasValue) query = query.Skip(skip.Value);
+        if (take.HasValue) query = query.Take(take.Value);
+        if (noTracking) query = query.AsNoTracking();
+        
+        if (orderBy != null)
+        {
+            if (orderByDescending) query = query.OrderByDescending(orderBy);
+            else query = query.OrderBy(orderBy);
+        }
+
+        return await query.ToListAsync();
     }
 
     public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)

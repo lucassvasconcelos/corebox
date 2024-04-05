@@ -33,7 +33,7 @@ public class AbstractRepositoryIntegrationTests
         await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);
         await _unitOfWork.CommitAsync();
 
-        var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
+        var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync(noTracking: true);
         results.Count.Should().Be(1);
         results[0].Id.Should().Be(produto.Id);
         results[0].Nome.Should().Be(produto.Nome);
@@ -241,5 +241,77 @@ public class AbstractRepositoryIntegrationTests
         var result = await _unitOfWork.GetRepository<Produto>().AnyAsync(spec1.ToExpression());
 
         result.Should().BeFalse();
+    }
+
+    [Theory, AutoMoqDataAttribute]
+    public async Task Deve_Criar_E_Persistir_Uma_Lista_De_Produtos_E_Obtela_Paginada(List<Produto> produtos)
+    {
+        await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(produtos);
+        await _unitOfWork.CommitAsync();
+
+        var results = (await _unitOfWork.GetRepository<Produto>().GetAllAsync()).ToList();
+        results.Count.Should().Be(3);
+
+        var result2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(skip: 0, take: 2);
+        result2.Count.Should().Be(2);
+
+        var result3 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(skip: 2, take: 2);
+        result3.Count.Should().Be(1);
+    }
+
+    [Theory, AutoMoqDataAttribute]
+    public async Task Deve_Obter_Varios_Produtos_Ordenados_Por_Preco_Do_Maior_Para_O_Menor(IEnumerable<Produto> produtos)
+    {
+        await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(produtos);
+        await _unitOfWork.CommitAsync();
+
+        var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
+        results.Count.Should().Be(3);
+
+        var produto1 = results[0];
+        var produto2 = results[1];
+        var produto3 = results[2];
+
+        Produto.AtualizarPreco(produto1, 10);
+        Produto.AtualizarPreco(produto2, 20);
+        Produto.AtualizarPreco(produto3, 30);
+
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto1);
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto2);
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto3);
+        await _unitOfWork.CommitAsync();
+
+        var result2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(orderBy: x => x.Preco, orderByDescending: true);
+        result2[0].Preco.Should().Be(30);
+        result2[1].Preco.Should().Be(20);
+        result2[2].Preco.Should().Be(10);
+    }
+
+    [Theory, AutoMoqDataAttribute]
+    public async Task Deve_Obter_Varios_Produtos_Ordenados_Por_Preco_Do_Menor_Para_O_Maior(IEnumerable<Produto> produtos)
+    {
+        await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(produtos);
+        await _unitOfWork.CommitAsync();
+
+        var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
+        results.Count.Should().Be(3);
+
+        var produto1 = results[0];
+        var produto2 = results[1];
+        var produto3 = results[2];
+
+        Produto.AtualizarPreco(produto1, 10);
+        Produto.AtualizarPreco(produto2, 20);
+        Produto.AtualizarPreco(produto3, 30);
+
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto1);
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto2);
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto3);
+        await _unitOfWork.CommitAsync();
+
+        var result2 = await _unitOfWork.GetRepository<Produto>().GetAllAsync(orderBy: x => x.Preco);
+        result2[0].Preco.Should().Be(10);
+        result2[1].Preco.Should().Be(20);
+        result2[2].Preco.Should().Be(30);
     }
 }
