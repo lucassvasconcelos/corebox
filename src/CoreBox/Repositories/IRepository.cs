@@ -13,4 +13,5 @@ public interface IRepository<TEntity> where TEntity : Entity<TEntity>
     Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
     Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null);
 }

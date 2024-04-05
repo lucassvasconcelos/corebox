@@ -4,7 +4,7 @@ namespace CoreBox.Notification;
 
 public class AppNotificationHandler : INotificationHandler<AppNotification>
 {
-    private AppNotification? _appNotification;
+    private AppNotification _appNotification;
 
     public async Task Handle(AppNotification notification, CancellationToken cancellationToken)
     {
@@ -12,7 +12,7 @@ public class AppNotificationHandler : INotificationHandler<AppNotification>
         await Task.CompletedTask;
     }
 
-    public virtual AppNotification? GetNotificationContent()
+    public virtual AppNotification GetNotificationContent()
         => _appNotification;
 
     public virtual bool HasErrors()

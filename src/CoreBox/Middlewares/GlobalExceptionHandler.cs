@@ -7,19 +7,27 @@ using Microsoft.AspNetCore.Http;
 
 namespace CoreBox.Middlewares;
 
-public static class GlobalExceptionHandler
+public class GlobalExceptionHandler : IExceptionHandler
 {
-    public static async Task InvokeAsync(HttpContext context)
+    public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)
     {
-        var exception = context.Features.Get<IExceptionHandlerFeature>();
-
         if (exception != null)
         {
-            string errorMessage = JsonSerializer.Serialize(new { Error = exception.Error.GetMessage() });
+            string errorMessage = JsonSerializer.Serialize(new { Error = exception.GetMessage() });
             context.Response.ContentLength = errorMessage.Length;
-            context.Response.StatusCode = (int)exception.Error.ToHttpStatus();
+            context.Response.StatusCode = (int)exception.ToHttpStatus();
             context.Response.ContentType = MimeType.json;
-            await context.Response.WriteAsync(errorMessage, Encoding.UTF8);
+            await context.Response.WriteAsync(errorMessage, Encoding.UTF8, cancellationToken);
         }
+        else
+        {
+            string errorMessage = JsonSerializer.Serialize(new { Error = exception.GetMessage() ?? "Unexpected Error!" });
+            context.Response.ContentLength = errorMessage.Length;
+            context.Response.StatusCode = (int)exception.ToHttpStatus();
+            context.Response.ContentType = MimeType.json;
+            await context.Response.WriteAsync(errorMessage, Encoding.UTF8, cancellationToken);
+        }
+
+        return true;
     }
 }

@@ -192,6 +192,46 @@ public class AbstractRepositoryIntegrationTests
     }
 
     [Theory, AutoMoqDataAttribute]
+    public async Task Deve_Contabilizar_Os_Produtos(IEnumerable<Produto> produtos)
+    {
+        await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(produtos);
+        await _unitOfWork.CommitAsync();
+
+        var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
+        var getAllResultCount = results.Count;
+
+        var countAsyncResult = await _unitOfWork.GetRepository<Produto>().CountAsync();
+
+        countAsyncResult.Should().Be(getAllResultCount);
+    }
+
+    [Theory, AutoMoqDataAttribute]
+    public async Task Deve_Contabilizar_Os_Produtos_Com_Filtro(IEnumerable<Produto> produtos)
+    {
+        await _unitOfWork.GetRepository<Produto>().SaveRangeAsync(produtos);
+        await _unitOfWork.CommitAsync();
+
+        var results = await _unitOfWork.GetRepository<Produto>().GetAllAsync();
+        results.Count.Should().Be(3);
+
+        var produto1 = results[0];
+        var produto2 = results[1];
+        var produto3 = results[2];
+
+        Produto.AtualizarPreco(produto1, 10);
+        Produto.AtualizarPreco(produto2, 20);
+        Produto.AtualizarPreco(produto3, 30);
+
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto1);
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto2);
+        await _unitOfWork.GetRepository<Produto>().UpdateAsync(produto3);
+        await _unitOfWork.CommitAsync();
+
+        var countAsyncResult = await _unitOfWork.GetRepository<Produto>().CountAsync(x => x.Preco >= 20);
+        countAsyncResult.Should().Be(2);
+    }
+
+    [Theory, AutoMoqDataAttribute]
     public async Task Deve_Validar_Que_Nao_Existe_Um_Produto_Por_Id(Produto produto)
     {
         await _unitOfWork.GetRepository<Produto>().SaveAsync(produto);

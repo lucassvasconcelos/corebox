@@ -53,4 +53,12 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
 
     public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
         => await _entity.AsQueryable().AnyAsync(predicate);
+
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null)
+    {
+        if (predicate is null)
+            return await _entity.AsQueryable().CountAsync();
+
+        return await _entity.AsQueryable().CountAsync(predicate);
+    }
 }
