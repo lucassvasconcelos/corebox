@@ -6,8 +6,10 @@ public static class EnumExtensions
 {
     public static string GetDescription<T>(this T enumValue)
     {
+        if (enumValue is null) throw new ArgumentException("Enum value is null");
+
         var description = enumValue.ToString();
-        var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        var fieldInfo = enumValue.GetType().GetField(description!);
 
         if (fieldInfo is not null)
         {
@@ -17,7 +19,7 @@ public static class EnumExtensions
                 description = ((DescriptionAttribute)attrs[0]).Description;
         }
 
-        return description;
+        return description!;
     }
 
     public static T GetValueFromDescription<T>(this string description) where T : Enum
@@ -25,13 +27,13 @@ public static class EnumExtensions
         foreach(var field in typeof(T).GetFields())
         {
             if (((Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute) && attribute.Description == description) || field.Name == description)
-                return (T)field.GetValue(null);
+                return (T)field.GetValue(null)!;
         }
 
         throw new ArgumentException($"O item {description} não foi encontrado");
     }
 
-    public static List<string> GetDescriptions(this Type type)
+    public static List<string>? GetDescriptions(this Type type)
     {
         if (!type.IsEnum)
             return null;

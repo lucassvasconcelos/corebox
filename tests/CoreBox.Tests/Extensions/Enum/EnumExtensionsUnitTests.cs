@@ -39,4 +39,11 @@ public class EnumExtensionsUnitTests
         Action act = () => "Teste".GetValueFromDescription<TipoPessoa>();
         act.Should().ThrowExactly<ArgumentException>().Where(w => w.Message.Contains($"O item Teste não foi encontrado"));
     }
+
+    [Fact]
+    public void Deve_Nao_Obter_O_Valor_Do_Enum_Pela_Descricao_Passando_Nulo()
+    {
+        Action act = () => ((TipoPessoa?)null).GetDescription();
+        act.Should().ThrowExactly<ArgumentException>().Where(w => w.Message.Contains($"Enum value is null"));
+    }
 }

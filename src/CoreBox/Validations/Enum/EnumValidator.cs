@@ -12,7 +12,7 @@ public class EnumValidator<T, TProperty> : PropertyValidator<T, TProperty>
         if (value is null) 
             return false;
 
-        string valueText = value.ToString();
+        string valueText = value.ToString()!;
         int val = (int)Enum.Parse(value.GetType(), valueText);
         var enumItems = Enum.GetValues(value.GetType());
 

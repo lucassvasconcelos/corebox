@@ -11,7 +11,7 @@ public static class JsonPropertyExtensions
             return jProperty;
 
         var property = member as PropertyInfo;
-        jProperty.Writable = property.SetMethod != null;
+        jProperty.Writable = property!.SetMethod != null;
         return jProperty;
     }
 }

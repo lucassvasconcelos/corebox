@@ -40,10 +40,10 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
         return Task.CompletedTask;
     }
 
-    public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+    public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
         => await _entity.AsQueryable().FirstOrDefaultAsync(predicate);
 
-    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null, int? skip = null, int? take = null, Expression<Func<TEntity, object>> orderBy = null, bool orderByDescending = false, bool noTracking = false)
+    public virtual async Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, int? skip = null, int? take = null, Expression<Func<TEntity, object>>? orderBy = null, bool orderByDescending = false, bool noTracking = false)
     {
         var query = _entity.AsQueryable();
 
@@ -64,7 +64,7 @@ public class AbstractRepository<TEntity> : IRepository<TEntity>
     public virtual async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
         => await _entity.AsQueryable().AnyAsync(predicate);
 
-    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate = null)
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>>? predicate = null)
     {
         if (predicate is null)
             return await _entity.AsQueryable().CountAsync();

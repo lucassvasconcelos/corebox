@@ -11,6 +11,17 @@ namespace CoreBox.Tests.Extensions
     public class HttpContextExtensionsUnitTests
     {
         [Fact]
+        public void Deve_Retornar_Falso_Ao_Buscar_Se_Usuario_Esta_Autenticado_Sem_Sessao()
+        {
+            HttpContext httpContext = new DefaultHttpContext
+            {
+                User = new ClaimsPrincipal()
+            };
+
+            httpContext.IsAuthenticated().Should().BeFalse();
+        }
+
+        [Fact]
         public void Deve_Retornar_Verdadeiro_Ao_Buscar_Se_Usuario_Esta_Autenticado()
         {
             HttpContext httpContext = new DefaultHttpContext();

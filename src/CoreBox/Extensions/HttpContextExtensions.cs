@@ -5,7 +5,7 @@ namespace CoreBox.Extensions;
 public static class HttpContextExtensions
 {
     public static bool IsAuthenticated(this HttpContext httpContext)
-        => httpContext.User.Identity.IsAuthenticated;
+        => httpContext.User.Identity is not null && httpContext.User.Identity.IsAuthenticated;
 
     public static string GetUserIdAsString(this HttpContext httpContext)
     {

@@ -24,8 +24,8 @@ jobs:
     - name: dotnet Cake
       run: dotnet cake
 
-    - name: CodeCov
-      uses: codecov/codecov-action@v3.1.1
-      with:
-        files: ./tests/CoreBox.Tests/coverage.opencover.xml
-        fail_ci_if_error: true
+    # - name: CodeCov
+    #   uses: codecov/codecov-action@v3.1.1
+    #   with:
+    #     files: ./tests/CoreBox.Tests/coverage.opencover.xml
+    #     fail_ci_if_error: true

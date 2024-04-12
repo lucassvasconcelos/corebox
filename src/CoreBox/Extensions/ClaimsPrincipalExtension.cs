@@ -13,6 +13,6 @@ public static class ClaimsPrincipalExtension
         return false;
     }
 
-    public static Claim GetUserId(this ClaimsPrincipal claimsPrincipal)
+    public static Claim? GetUserId(this ClaimsPrincipal claimsPrincipal)
         => claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier);
 }

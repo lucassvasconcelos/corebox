@@ -21,9 +21,9 @@ public class GlobalExceptionHandler : IExceptionHandler
         }
         else
         {
-            string errorMessage = JsonSerializer.Serialize(new { Error = exception.GetMessage() ?? "Unexpected Error!" });
+            string errorMessage = JsonSerializer.Serialize(new { Error = "Unexpected Error!" });
             context.Response.ContentLength = errorMessage.Length;
-            context.Response.StatusCode = (int)exception.ToHttpStatus();
+            context.Response.StatusCode = 500;
             context.Response.ContentType = MimeType.json;
             await context.Response.WriteAsync(errorMessage, Encoding.UTF8, cancellationToken);
         }

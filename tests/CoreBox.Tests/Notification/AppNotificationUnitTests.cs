@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CoreBox.Notification;
 using FluentAssertions;
+using FluentValidation.Results;
 using Xunit;
 
 namespace CoreBox.Tests.Notification;
@@ -13,14 +14,28 @@ public class AppNotificationUnitTests
     public void Nao_Deve_Criar_Uma_Notificacao_De_Sucesso()
     {
         Action act = () => new AppNotification(200, "Sucesso!");
-        act.Should().ThrowExactly<Exception>();
+        act.Should().ThrowExactly<ArgumentException>();
     }
 
     [Fact]
     public void Nao_Deve_Criar_Uma_Notificacao_De_Sem_Conteudo()
     {
         Action act = () => new AppNotification(400, (string)null);
-        act.Should().ThrowExactly<Exception>();
+        act.Should().ThrowExactly<ArgumentException>();
+    }
+
+    [Fact]
+    public void Nao_Deve_Criar_Uma_Lista_De_Notificacoes_Sem_Erros()
+    {
+        Action act = () => new AppNotification(400, new List<string>());
+        act.Should().ThrowExactly<ArgumentException>();
+    }
+
+    [Fact]
+    public void Nao_Deve_Criar_Uma_Lista_De_Notificacoes_Sem_Erros_De_Validacao()
+    {
+        Action act = () => new AppNotification(400, new List<ValidationFailure>());
+        act.Should().ThrowExactly<ArgumentException>();
     }
 
     [Fact]

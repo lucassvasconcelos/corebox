@@ -22,7 +22,7 @@ public abstract class Specification<TEntity> where TEntity : Entity<TEntity>
         return new OrSpecification<TEntity>(this, specification);
     }
 
-    public Specification<TEntity> Not(Specification<TEntity> specification = null)
+    public Specification<TEntity> Not()
         => new NotSpecification<TEntity>(this);
 
     public static readonly Specification<TEntity> All = new SpecificationBuilder<TEntity>();

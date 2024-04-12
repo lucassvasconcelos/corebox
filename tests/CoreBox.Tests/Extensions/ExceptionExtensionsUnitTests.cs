@@ -98,5 +98,12 @@ namespace CoreBox.Tests.Extensions
             var aggregateException = new AggregateException(exception);
             aggregateException.GetMessage().Should().Be("Custom exception");
         }
+
+        [Fact]
+        public void Deve_Retornar_Uma_Mensagem_Nula()
+        {
+            var exception = new AggregateException();
+            exception.GetMessage().Should().Be(null);
+        }
     }
 }

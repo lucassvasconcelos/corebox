@@ -6,10 +6,10 @@ namespace CoreBox.Extensions;
 
 public static class ExceptionExtensions
 {
-    public static string GetMessage(this Exception ex) =>
-        ex is AggregateException ? ex.InnerException.Message : ex?.Message;
+    public static string? GetMessage(this Exception ex) =>
+        ex is not null && ex is AggregateException ? ex.InnerException?.Message : ex!.Message;
 
-    public static HttpStatusCode ToHttpStatus(this Exception ex)
+    public static HttpStatusCode ToHttpStatus(this Exception? ex)
         => ex switch
         {
             Exception _ex when _ex is ValidationException || _ex is BadRequestException => HttpStatusCode.BadRequest,

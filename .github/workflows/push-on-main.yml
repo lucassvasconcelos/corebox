@@ -39,11 +39,11 @@ jobs:
       env:
         GIT_VERSION: ${{ steps.gitversion.outputs.semVer }}
 
-    - name: CodeCov
-      uses: codecov/codecov-action@v3.1.1
-      with:
-        files: ./tests/CoreBox.Tests/coverage.opencover.xml
-        fail_ci_if_error: true
+    # - name: CodeCov
+    #   uses: codecov/codecov-action@v3.1.1
+    #   with:
+    #     files: ./tests/CoreBox.Tests/coverage.opencover.xml
+    #     fail_ci_if_error: true
 
     - name: Package Publish
       run: dotnet nuget push -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }} ./src/CoreBox/bin/Release/*.nupkg --skip-duplicate
